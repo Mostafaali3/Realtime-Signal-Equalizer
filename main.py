@@ -7,11 +7,13 @@ from icons_setup.compiledIcons import *
 from classes.controller import Controller
 from classes.customSignal import CustomSignal
 from classes.frequencyViewer import FrequencyViewer
+from classes.spectrogram import Spectrogram
 from scipy.io import wavfile
 import numpy as np
-
+from helper_function.compile_qrc import compile_qrc
 
 compile_qrc()
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -32,13 +34,37 @@ class MainWindow(QMainWindow):
         self.frequency_viewer.getAxis('bottom').setPen('w')
         self.frequency_viewer.getAxis('left').setPen('w') 
         
+        self.old_signal_spectrogram = Spectrogram(id = 1)
+        self.old_signal_spectrogram.setBackground((30, 41, 59))
+        self.old_signal_spectrogram.getAxis('bottom').setPen('w')
+        self.old_signal_spectrogram.getAxis('left').setPen('w') 
+        
+        self.new_signal_spectrogram = Spectrogram(id = 2)
+        self.new_signal_spectrogram.setBackground((30, 41, 59))
+        self.new_signal_spectrogram.getAxis('bottom').setPen('w')
+        self.new_signal_spectrogram.getAxis('left').setPen('w') 
+        
+        
         ## adding the frequency viwer 
         self.frequency_frame = self.findChild(QFrame, 'frequencyFrame')
         self.frequency_frame_layout = QVBoxLayout()
         self.frequency_frame.setLayout(self.frequency_frame_layout)
         self.frequency_frame_layout.addWidget(self.frequency_viewer)
+        
+        self.old_spectrogram_frame = self.findChild(QFrame, 'spectrogramGraph1Frame')
+        self.old_spectrogram_frame_layout = QVBoxLayout()
+        self.old_spectrogram_frame.setLayout(self.old_spectrogram_frame_layout)
+        self.old_spectrogram_frame_layout.addWidget(self.old_signal_spectrogram)
+        
+        self.new_spectrogram_frame = self.findChild(QFrame, 'spectrogramGraph2Frame')
+        self.new_spectrogram_frame_layout = QVBoxLayout()
+        self.new_spectrogram_frame.setLayout(self.new_spectrogram_frame_layout)
+        self.new_spectrogram_frame_layout.addWidget(self.new_signal_spectrogram)
+        
+        
+        
             
-        self.controller = Controller(self.frequency_viewer)
+        self.controller = Controller(frequency_viewer=self.frequency_viewer, old_signal_spectrogram=self.old_signal_spectrogram, new_signal_spectrogram=self.new_signal_spectrogram)
         
         
     def upload_signal(self):
@@ -63,6 +89,23 @@ class MainWindow(QMainWindow):
             self.show_error("the file extention must be a csv file")
         
 
+        self.isSpectrogramDisplayed = True
+
+        self.showIcon = QIcon('icons_setup\icons\show.png')
+        self.hideIcon = QIcon('icons_setup\icons\hide.png')
+
+        self.spectrogramsFrame = self.findChild(QFrame, 'spectrogramsFrame')
+        self.spectrogramDisplayButton = self.findChild(QPushButton, 'spectrogramDisplayButton')
+        self.spectrogramDisplayButton.clicked.connect(self.toggleSpectrogramDisplay)
+        
+    def toggleSpectrogramDisplay(self):
+        if self.isSpectrogramDisplayed:
+            self.spectrogramsFrame.hide()
+            self.spectrogramDisplayButton.setIcon(self.showIcon)
+        else:
+            self.spectrogramsFrame.show()
+            self.spectrogramDisplayButton.setIcon(self.hideIcon)
+        self.isSpectrogramDisplayed = not self.isSpectrogramDisplayed
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
