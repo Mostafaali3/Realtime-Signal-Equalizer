@@ -98,17 +98,32 @@ class MainWindow(QMainWindow):
         self.dog_sound_level_slider.valueChanged.connect(self.dog_sound_level_slider_effect)
         
         self.crow_sound_level_slider = self.findChild(QSlider , "verticalSlider_20")
-        self.dog_sound_level_slider.setMaximum(9)
-        self.dog_sound_level_slider.setMinimum(1)
-        self.dog_sound_level_slider.setPageStep(1)
-        self.dog_sound_level_slider.valueChanged.connect(self.crow_sound_level_slider_effect)
+        self.crow_sound_level_slider.setMaximum(9)
+        self.crow_sound_level_slider.setMinimum(1)
+        self.crow_sound_level_slider.setPageStep(1)
+        self.crow_sound_level_slider.setValue(5)
+        self.crow_sound_level_slider.valueChanged.connect(self.crow_sound_level_slider_effect)
         
         self.elephant_sound_level_slider = self.findChild(QSlider , "verticalSlider_21")
-        self.mouse_sound_level_slider = self.findChild(QSlider , "verticalSlider_22")
+        self.elephant_sound_level_slider.setMaximum(9)
+        self.elephant_sound_level_slider.setMinimum(1)
+        self.elephant_sound_level_slider.setPageStep(1)
+        self.elephant_sound_level_slider.setValue(5)
+        self.elephant_sound_level_slider.valueChanged.connect(self.elephant_sound_level_slider_effect)
         
-        # Initializing play button for sound after modification
+        self.mouse_sound_level_slider = self.findChild(QSlider , "verticalSlider_22")
+        self.mouse_sound_level_slider.setMaximum(9)
+        self.mouse_sound_level_slider.setMinimum(1)
+        self.mouse_sound_level_slider.setPageStep(1)        
+        self.mouse_sound_level_slider.setValue(5)
+        self.mouse_sound_level_slider.valueChanged.connect(self.mouse_sound_level_slider_effect)
+        
+        # Initializing play button for sound before and after modification
         self.after_modifiy_play_sound_button = self.findChild(QPushButton , "soundAfterButton")
         self.after_modifiy_play_sound_button.pressed.connect(self.play_sound_after_modify)
+        
+        self.before_modifiy_play_sound_button = self.findChild(QPushButton , "soundBeforeButton")
+        self.before_modifiy_play_sound_button.pressed.connect(self.play_sound_before_modify)
         
     def upload_signal(self):
         '''
@@ -142,9 +157,24 @@ class MainWindow(QMainWindow):
 
     def dog_sound_level_slider_effect(self , slider_value):
         self.controller.equalizer.equalize( self.animals_freq_ranges['dog'], factor = self.slider_values_map[slider_value])
+        self.controller.set_current_signal(self.current_signal)
     
     def crow_sound_level_slider_effect(self , slider_value):
-        pass
+        self.controller.equalizer.equalize( self.animals_freq_ranges['crow'], factor = self.slider_values_map[slider_value])
+        self.controller.set_current_signal(self.current_signal)
+
+    def elephant_sound_level_slider_effect(self , slider_value):
+        self.controller.equalizer.equalize( self.animals_freq_ranges['elephant'], factor = self.slider_values_map[slider_value])
+        self.controller.set_current_signal(self.current_signal)
+
+    def mouse_sound_level_slider_effect(self , slider_value):
+        self.controller.equalizer.equalize( self.animals_freq_ranges['mouse'], factor = self.slider_values_map[slider_value])
+        self.controller.set_current_signal(self.current_signal)
+
+    
+    def play_sound_before_modify(self):
+        sd.play(self.current_signal.original_signal[1] , self.current_signal.signal_sampling_rate)
+        sd.wait()
     
     def play_sound_after_modify(self):
         self.controller.equalizer.inverse()
