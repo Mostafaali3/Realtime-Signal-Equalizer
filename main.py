@@ -178,7 +178,8 @@ class MainWindow(QMainWindow):
     
     def play_sound_after_modify(self):
         self.controller.equalizer.inverse()
-        sd.play(self.current_signal.reconstructed_signal[1] , self.current_signal.signal_sampling_rate)
+        test = self.current_signal.reconstructed_signal[1] / np.max(np.abs(self.current_signal.reconstructed_signal[1]))
+        sd.play(test , self.current_signal.signal_sampling_rate)
         sd.wait()
 
 if __name__ == '__main__':
