@@ -23,6 +23,15 @@ class MainWindow(QMainWindow):
         
         self.current_signal = None
         
+        self.isSpectrogramDisplayed = True
+
+        self.showIcon = QIcon('icons_setup\icons\show.png')
+        self.hideIcon = QIcon('icons_setup\icons\hide.png')
+
+        self.spectrogramsFrame = self.findChild(QFrame, 'spectrogramsFrame')
+        self.spectrogramDisplayButton = self.findChild(QPushButton, 'spectrogramDisplayButton')
+        self.spectrogramDisplayButton.clicked.connect(self.toggleSpectrogramDisplay)
+        
         
         ## browsing signal button
         self.browse_button = self.findChild(QPushButton, 'browseButton')
@@ -89,14 +98,7 @@ class MainWindow(QMainWindow):
             self.show_error("the file extention must be a csv file")
         
 
-        self.isSpectrogramDisplayed = True
-
-        self.showIcon = QIcon('icons_setup\icons\show.png')
-        self.hideIcon = QIcon('icons_setup\icons\hide.png')
-
-        self.spectrogramsFrame = self.findChild(QFrame, 'spectrogramsFrame')
-        self.spectrogramDisplayButton = self.findChild(QPushButton, 'spectrogramDisplayButton')
-        self.spectrogramDisplayButton.clicked.connect(self.toggleSpectrogramDisplay)
+        
         
     def toggleSpectrogramDisplay(self):
         if self.isSpectrogramDisplayed:
