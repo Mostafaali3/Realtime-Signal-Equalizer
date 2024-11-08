@@ -1,24 +1,99 @@
-from classes import CustomSignal
+from CustomSignal import CustomSignal
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 class EqualizingMode():
     def __init__(self, current_signal:CustomSignal = []):
         self.current_signal = current_signal
+    
+    @property
+    def signal_time_magnitude_values(self):
+        return self.__signal_time_magnitude_values
+    
+    @ signal_time_magnitude_values.setter
+    def signal_time_magnitude_values(self , new_signal_magnitudes_in_time):
+        self.__signal_time_magnitude_values = new_signal_magnitudes_in_time
+    
+    @property
+    def signal_rfft_result(self):
+        return self.__signal_rfft_result
+    
+    @ signal_rfft_result.setter
+    def signal_rfft_result(self , new_signal_rfft_result):
+        self.__signal_rfft_result = new_signal_rfft_result
         
-    def transform(self, signal:CustomSignal):
+    @property
+    def signal_rfft_result_magnitudes(self):
+        return self.__signal_rfft_result_magnitudes
+    
+    @ signal_rfft_result_magnitudes.setter
+    def signal_rfft_result_magnitudes(self , new_signal_rfft_magnitudes):
+        self.__signal_rfft_result_magnitudes = new_signal_rfft_magnitudes
+        
+    @property
+    def signal_frequencies(self):
+        return self.__signal_frequencies
+    
+    @ signal_frequencies.setter
+    def signal_frequencies(self , new_signal_frequencies):
+        self.__signal_frequencies = new_signal_frequencies
+        
+    @property
+    def signal_rfft_result_phase(self):
+        return self.__signal_rfft_result_phase
+    
+    @ signal_rfft_result_phase.setter
+    def signal_rfft_result_phase(self , new_signal_rfft_result_phase):
+        self.__signal_rfft_result_phase = new_signal_rfft_result_phase
+        
+    
+        
+    def transform(self):
         '''
         this function is to make the frequency transform on the data given 
         '''
-        pass
+        self.signal_time_magnitude_values = self.current_signal.original_signal[1]
+        self.current_signal.original_linear_frequency[0] = np.fft.rfftfreq(len(self.signal_time_magnitude_values) , 1 / self.current_signal.signal_sampling_rate)
+        self.current_signal.original_linear_frequency[1] = np.fft.rfft(self.signal_time_magnitude_values)
     
-    def inverse(self, signal:CustomSignal):
+    def inverse(self):
         '''
-        this function is to restor the signal from its frequencies including the shift
+        this function is to restore the signal from its frequencies including the shift
         '''
-        pass
+        signal_rfft_result_magnitudes = np.abs(self.current_signal.new_linear_frequency[1])
+        signal_rfft_result_phase = np.angle(self.current_signal.new_linear_frequency[1])
+        signal_rfft_components = signal_rfft_result_magnitudes * np.exp(1j * signal_rfft_result_phase)
+        self.current_signal.reconstructed_signal[1] = np.fft.irfft(signal_rfft_components)
+        plt.plot( self.current_signal.reconstructed_signal[0], self.current_signal.reconstructed_signal[1])
+        plt.show()
+        
+    def equalize(self, start_point , end_point, factor):
+        '''
+        this function is to amplify or reduce the amplitude for the data in a specific given region
+        '''
+        signal_rfft_result_magnitudes = np.abs(self.current_signal.original_linear_frequency[1])
+        signal_rfft_result_phase = np.angle(self.current_signal.original_linear_frequency[1])
+        equalized_signal_magnitudes = signal_rfft_result_magnitudes[start_point: end_point] * factor
+        equalized_signal_phase = signal_rfft_result_phase[start_point: end_point]
+        equalized_signal_components = equalized_signal_magnitudes * np.exp(1j * equalized_signal_phase)
+        self.current_signal.new_linear_frequency[1][start_point : end_point] =equalized_signal_components
     
-    def equalize(self, data_x, data_y, factor):
-        '''
-        this function is to amplify or reducing the amplitude if the data in a specific given region
-        '''
-        pass 
+def test_signal_maker():
+    sampling_rate = 1000
+    duration = 1
+    t = np.linspace(0, duration, sampling_rate * duration, endpoint=False)
+    frequency1 = 2
+    frequency2 = 4
+    frequencies = [frequency1 , frequency2]
+    signal = 0.5 * np.sin(2 * np.pi * frequency1 * t) + 0.3 * np.sin(2 * np.pi * frequency2 * t)
+
+    return [t , signal] ,frequencies
+
+test_signal = test_signal_maker()
+signal = CustomSignal(test_signal[0][0] , test_signal[0][1])
+signal.frequency_limits.extend(test_signal[1])
+equalize = EqualizingMode(signal)
+equalize.transform()
+equalize.equalize(signal.frequency_limits[0] - 1 , signal.frequency_limits[0] + 1 , 0)
+equalize.inverse()
