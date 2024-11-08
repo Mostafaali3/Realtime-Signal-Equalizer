@@ -20,20 +20,30 @@ class Spectrogram(pg.PlotWidget):
             else:
                 signal_y = self.__current_signal.reconstructed_signal[1]
                 frequencies, time, intensities = spectrogram(signal_y, self.__current_signal.signal_sampling_rate)
-                
-            pg.setConfigOption(imageAxisOrder='row-major')
-            image = pg.ImageItem()
+
+            intensities = np.log1p(intensities)  # Adds 1 to avoid log(0)
+            image = pg.ImageItem(axisOrder='row-major')
             self.addItem(image)
             image.setImage(intensities)
             transform = QtGui.QTransform()
             transform.scale(time[-1] / np.size(intensities, axis=1),
                             frequencies[-1] / np.size(intensities, axis=0))
             image.setTransform(transform)
+            image.setLevels([np.min(intensities), np.max(intensities)])
         
     
     def clear(self):
         self.clear()
         self.__current_signal = None
+        
+    @property
+    def current_signal(self):
+        return self.__current_signal
+    
+    @current_signal.setter
+    def current_signal(self, new_signal):
+        if isinstance(new_signal, CustomSignal):
+            self.__current_signal = new_signal
 
 # from scipy import signal
 # import numpy as np
