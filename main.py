@@ -10,9 +10,10 @@ from classes.frequencyViewer import FrequencyViewer
 from classes.spectrogram import Spectrogram
 from scipy.io import wavfile
 import numpy as np
-
+from helper_function.compile_qrc import compile_qrc
 
 compile_qrc()
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -88,6 +89,23 @@ class MainWindow(QMainWindow):
             self.show_error("the file extention must be a csv file")
         
 
+        self.isSpectrogramDisplayed = True
+
+        self.showIcon = QIcon('icons_setup\icons\show.png')
+        self.hideIcon = QIcon('icons_setup\icons\hide.png')
+
+        self.spectrogramsFrame = self.findChild(QFrame, 'spectrogramsFrame')
+        self.spectrogramDisplayButton = self.findChild(QPushButton, 'spectrogramDisplayButton')
+        self.spectrogramDisplayButton.clicked.connect(self.toggleSpectrogramDisplay)
+        
+    def toggleSpectrogramDisplay(self):
+        if self.isSpectrogramDisplayed:
+            self.spectrogramsFrame.hide()
+            self.spectrogramDisplayButton.setIcon(self.showIcon)
+        else:
+            self.spectrogramsFrame.show()
+            self.spectrogramDisplayButton.setIcon(self.hideIcon)
+        self.isSpectrogramDisplayed = not self.isSpectrogramDisplayed
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

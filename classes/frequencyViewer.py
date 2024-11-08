@@ -12,13 +12,12 @@ class FrequencyViewer(pg.PlotWidget):
     def plot_freq_domain(self):
         self.clear()
         signal_rfft_result_magnitudes = np.abs(self.current_signal.new_linear_frequency[1])
-        if(self.view_scale == "linear"):
+        if(self.view_scale == "Linear"):
             self.plot(self.current_signal.new_linear_frequency[0] , signal_rfft_result_magnitudes, pen=pg.mkPen(color = 'b' , width=1))
             # self.setYRange(min(self.current_signal.new_linear_frequency[1]),max(self.current_signal.new_linear_frequency[1]))
         
         elif(self.view_scale == "Audiogram"):
-            current_signal_audiogram_x_values = 20 * np.log10(self.current_signal.new_linear_frequency[0])
-            self.plot(current_signal_audiogram_x_values , signal_rfft_result_magnitudes, pen=pg.mkPen(color = 'b' , width=1))
+            self.plot(self.current_signal.new_linear_frequency[0] , signal_rfft_result_magnitudes, pen=pg.mkPen(color = 'b' , width=1))
             # self.setYRange(min(self.current_signal.new_linear_frequency[1]),max(self.current_signal.new_linear_frequency[1]))
             
             
