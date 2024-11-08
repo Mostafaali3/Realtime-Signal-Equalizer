@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QPushButton, QFrame, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QPushButton, QFrame, QVBoxLayout , QSlider
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon
 from helper_function.compile_qrc import compile_qrc
@@ -20,7 +20,14 @@ class MainWindow(QMainWindow):
         loadUi('main.ui', self)
         self.setWindowTitle('Equalizer')
         self.setWindowIcon(QIcon('icons_setup\icons\logo.png'))
-        
+        self.isSpectrogramDisplayed = True
+
+        self.showIcon = QIcon('icons_setup\icons\show.png')
+        self.hideIcon = QIcon('icons_setup\icons\hide.png')
+
+        self.spectrogramsFrame = self.findChild(QFrame, 'spectrogramsFrame')
+        self.spectrogramDisplayButton = self.findChild(QPushButton, 'spectrogramDisplayButton')
+        self.spectrogramDisplayButton.clicked.connect(self.toggleSpectrogramDisplay)
         self.current_signal = None
         
         self.isSpectrogramDisplayed = True
@@ -70,10 +77,20 @@ class MainWindow(QMainWindow):
         self.new_spectrogram_frame.setLayout(self.new_spectrogram_frame_layout)
         self.new_spectrogram_frame_layout.addWidget(self.new_signal_spectrogram)
         
-        
-        
-            
+
         self.controller = Controller(frequency_viewer=self.frequency_viewer, old_signal_spectrogram=self.old_signal_spectrogram, new_signal_spectrogram=self.new_signal_spectrogram)
+        
+        #Initializing Animals Mode Sliders
+        self.dog_sound_level_slider = self.findChild(QSlider , "verticalSlider_19")
+        self.dog_sound_level_slider.setMaximum(11)
+        self.dog_sound_level_slider.setMinimum(1)
+        self.dog_sound_level_slider.setPageStep(1)
+        self.dog_sound_level_slider.valueChanged.connect(self.dog_sound_level_slider_effect)
+        
+        self.crow_sound_level_slider = self.findChild(QSlider , "verticalSlider_20")
+        self.elephant_sound_level_slider = self.findChild(QSlider , "verticalSlider_21")
+        self.mouse_sound_level_slider = self.findChild(QSlider , "verticalSlider_22")
+        
         
         
     def upload_signal(self):
@@ -86,7 +103,7 @@ class MainWindow(QMainWindow):
         elif file_path.endswith('.wav'):
             sample_rate, data_y = wavfile.read(file_path)
             data_x = np.linspace(0, len(data_y)/sample_rate, len(data_y))
-            new_signal = CustomSignal(data_x, data_y)
+            new_signal = CustomSignal(data_x, data_y , linear_frequency=[[], []])
             new_signal.signal_sampling_rate = sample_rate
             self.current_signal = new_signal
             self.controller.set_current_signal(new_signal)
@@ -96,10 +113,7 @@ class MainWindow(QMainWindow):
 
         else:
             self.show_error("the file extention must be a csv file")
-        
 
-        
-        
     def toggleSpectrogramDisplay(self):
         if self.isSpectrogramDisplayed:
             self.spectrogramsFrame.hide()
@@ -109,6 +123,10 @@ class MainWindow(QMainWindow):
             self.spectrogramDisplayButton.setIcon(self.hideIcon)
         self.isSpectrogramDisplayed = not self.isSpectrogramDisplayed
 
+    def dog_sound_level_slider_effect(self , slider_value):
+        slider_values_map = [i for i in range(0,12,1)]
+        print(slider_values_map)
+        
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()
