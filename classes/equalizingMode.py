@@ -1,4 +1,4 @@
-from CustomSignal import CustomSignal
+from customSignal import CustomSignal
 import numpy as np
 import matplotlib.pyplot as plt
 
