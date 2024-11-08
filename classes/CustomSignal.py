@@ -58,3 +58,6 @@ class CustomSignal():
     def signal_sampling_rate(self):
         return self.__signal_sampling_rate        
     
+    @signal_sampling_rate.setter
+    def signal_sampling_rate(self , new_sampling_rate):
+        self.__signal_sampling_rate = new_sampling_rate
