@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
         self.browse_button.clicked.connect(self.upload_signal)
         
         ## initializing the viewers
-        self.frequency_viewer = FrequencyViewer(scale="Audiogram")
+        self.frequency_viewer = FrequencyViewer(scale="Linear")
         self.frequency_viewer.setBackground((30, 41, 59))
         self.frequency_viewer.getAxis('bottom').setPen('w')
         self.frequency_viewer.getAxis('left').setPen('w') 
