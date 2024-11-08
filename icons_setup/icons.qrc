@@ -5,6 +5,16 @@
     <file>..\icons_setup\icons\logo.png</file>
     <file>..\icons_setup\icons\show.png</file>
     <file>..\icons_setup\icons\hide.png</file>
+    <file>..\icons_setup\icons\browse.png</file>
+    <file>..\icons_setup\icons\volume.png</file>
+    <file>..\icons_setup\icons\mute.png</file>
+    <file>..\icons_setup\icons\play.png</file>
+    <file>..\icons_setup\icons\pause.png</file>
+    <file>..\icons_setup\icons\replay.png</file>
+    <file>..\icons_setup\icons\speedUp.png</file>
+    <file>..\icons_setup\icons\speedDown.png</file>
+    <file>..\icons_setup\icons\reset.png</file>
+
 
   </qresource>
 </RCC>
