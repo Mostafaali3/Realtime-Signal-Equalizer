@@ -5,7 +5,8 @@ class CustomSignal():
         self.__original_signal = [data_x, data_y]
         self.reconstructed_signal = deepcopy(self.original_signal)
         self.frequency_limits = frequency_limits
-        self.linear_frequency = linear_frequency
+        self.original_linear_frequency = linear_frequency
+        self.new_linear_frequency = linear_frequency
         
         
     @property
