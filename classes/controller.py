@@ -13,8 +13,6 @@ class Controller():
         self.mode = mode
         self.old_signal_viewer = None
         self.new_signal_viewer = None
-        self.old_spectrogram = None
-        self.new_spectrogram = None
         self.old_signal_spectrogram = old_signal_spectrogram
         self.new_signal_spectrogram = new_signal_spectrogram
         
@@ -27,7 +25,12 @@ class Controller():
         self.frequency_viewer.plot_freq_domain()
     
     def plot_spectrogram(self):
-        pass
+        if self.__current_signal:
+            self.old_signal_spectrogram.current_signal = self.__current_signal
+            self.new_signal_spectrogram.current_signal = self.__current_signal
+            self.old_signal_spectrogram.plot()
+            self.new_signal_spectrogram.plot()
+        
     
     def set_current_signal(self, signal:CustomSignal):
         self.__current_signal = signal
@@ -35,6 +38,7 @@ class Controller():
         if len(self.__current_signal.original_linear_frequency[0]) == 0:
             self.equalizer.transform()
         self.plot_frequency_viewer()
+        self.plot_spectrogram()
     
     def clear(self):
         pass
