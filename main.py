@@ -11,6 +11,7 @@ from classes.spectrogram import Spectrogram
 from scipy.io import wavfile
 import numpy as np
 from helper_function.compile_qrc import compile_qrc
+import sounddevice as sd
 
 compile_qrc()
 
@@ -80,18 +81,34 @@ class MainWindow(QMainWindow):
 
         self.controller = Controller(frequency_viewer=self.frequency_viewer, old_signal_spectrogram=self.old_signal_spectrogram, new_signal_spectrogram=self.new_signal_spectrogram)
         
-        #Initializing Animals Mode Sliders
+        #Initializing Animals Mode Sliders adn dictionary
+        
+        self.slider_values_map = [0 , 0.0625, 0.125, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0]
+        self.animals_freq_ranges = dict()
+        self.animals_freq_ranges['dog'] = [(220,500) , (600,800)]
+        self.animals_freq_ranges['crow'] = [(1725,1780) , (1800,1850)]
+        self.animals_freq_ranges['elephant'] = [(480,700) , (900,1300) , (1500 , 1900)]
+        self.animals_freq_ranges['mouse'] = [(3000,16000)]
+        
         self.dog_sound_level_slider = self.findChild(QSlider , "verticalSlider_19")
-        self.dog_sound_level_slider.setMaximum(11)
+        self.dog_sound_level_slider.setMaximum(9)
         self.dog_sound_level_slider.setMinimum(1)
         self.dog_sound_level_slider.setPageStep(1)
+        self.dog_sound_level_slider.setValue(5)
         self.dog_sound_level_slider.valueChanged.connect(self.dog_sound_level_slider_effect)
         
         self.crow_sound_level_slider = self.findChild(QSlider , "verticalSlider_20")
+        self.dog_sound_level_slider.setMaximum(9)
+        self.dog_sound_level_slider.setMinimum(1)
+        self.dog_sound_level_slider.setPageStep(1)
+        self.dog_sound_level_slider.valueChanged.connect(self.crow_sound_level_slider_effect)
+        
         self.elephant_sound_level_slider = self.findChild(QSlider , "verticalSlider_21")
         self.mouse_sound_level_slider = self.findChild(QSlider , "verticalSlider_22")
         
-        
+        # Initializing play button for sound after modification
+        self.after_modifiy_play_sound_button = self.findChild(QPushButton , "soundAfterButton")
+        self.after_modifiy_play_sound_button.pressed.connect(self.play_sound_after_modify)
         
     def upload_signal(self):
         '''
@@ -124,9 +141,16 @@ class MainWindow(QMainWindow):
         self.isSpectrogramDisplayed = not self.isSpectrogramDisplayed
 
     def dog_sound_level_slider_effect(self , slider_value):
-        slider_values_map = [i for i in range(0,12,1)]
-        print(slider_values_map)
-        
+        self.controller.equalizer.equalize( self.animals_freq_ranges['dog'], factor = self.slider_values_map[slider_value])
+    
+    def crow_sound_level_slider_effect(self , slider_value):
+        pass
+    
+    def play_sound_after_modify(self):
+        self.controller.equalizer.inverse()
+        sd.play(self.current_signal.reconstructed_signal[1] , self.current_signal.signal_sampling_rate)
+        sd.wait()
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()

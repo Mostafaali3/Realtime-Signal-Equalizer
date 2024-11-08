@@ -21,6 +21,7 @@ class Controller():
         self.frequency_viewer = frequency_viewer
         self.equalizer = EqualizingMode()
         
+        
     def plot_frequency_viewer(self):
         self.frequency_viewer.current_signal = self.__current_signal
         self.frequency_viewer.plot_freq_domain()
