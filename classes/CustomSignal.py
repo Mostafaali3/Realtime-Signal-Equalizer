@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 class CustomSignal():
-    def __init__(self, data_x, data_y, frequency_limits = [], linear_frequency = [[],[]]):
+    def __init__(self, data_x, data_y, frequency_limits = dict(), linear_frequency = [[],[]]):
         self.__original_signal = [data_x, data_y]
         self.__reconstructed_signal = deepcopy(self.original_signal)
         self.__frequency_limits = frequency_limits

@@ -2,6 +2,7 @@ from CustomSignal import CustomSignal
 import numpy as np
 import matplotlib.pyplot as plt
 
+from frequencyViewer import FrequencyViewer
 
 class EqualizingMode():
     def __init__(self, current_signal:CustomSignal = []):
@@ -65,35 +66,41 @@ class EqualizingMode():
         signal_rfft_result_phase = np.angle(self.current_signal.new_linear_frequency[1])
         signal_rfft_components = signal_rfft_result_magnitudes * np.exp(1j * signal_rfft_result_phase)
         self.current_signal.reconstructed_signal[1] = np.fft.irfft(signal_rfft_components)
-        plt.plot( self.current_signal.reconstructed_signal[0], self.current_signal.reconstructed_signal[1])
-        plt.show()
+        # plt.plot( self.current_signal.reconstructed_signal[0], self.current_signal.reconstructed_signal[1])
+        # plt.show()
         
-    def equalize(self, start_point , end_point, factor):
+    def equalize(self, pairs_of_freq_ranges, factor):
         '''
         this function is to amplify or reduce the amplitude for the data in a specific given region
         '''
         signal_rfft_result_magnitudes = np.abs(self.current_signal.original_linear_frequency[1])
         signal_rfft_result_phase = np.angle(self.current_signal.original_linear_frequency[1])
-        equalized_signal_magnitudes = signal_rfft_result_magnitudes[start_point: end_point] * factor
-        equalized_signal_phase = signal_rfft_result_phase[start_point: end_point]
-        equalized_signal_components = equalized_signal_magnitudes * np.exp(1j * equalized_signal_phase)
-        self.current_signal.new_linear_frequency[1][start_point : end_point] =equalized_signal_components
-    
+        for freq_range in pairs_of_freq_ranges:
+            equalized_signal_magnitudes = signal_rfft_result_magnitudes[freq_range[0]: freq_range[1]] * factor
+            equalized_signal_phase = signal_rfft_result_phase[freq_range[0]: freq_range[1]]
+            equalized_signal_components = equalized_signal_magnitudes * np.exp(1j * equalized_signal_phase)
+            self.current_signal.new_linear_frequency[1][freq_range[0] : freq_range[1]] =equalized_signal_components
+            
 def test_signal_maker():
     sampling_rate = 1000
     duration = 1
     t = np.linspace(0, duration, sampling_rate * duration, endpoint=False)
     frequency1 = 2
     frequency2 = 4
-    frequencies = [frequency1 , frequency2]
-    signal = 0.5 * np.sin(2 * np.pi * frequency1 * t) + 0.3 * np.sin(2 * np.pi * frequency2 * t)
+    frequency3 = 10
+    frequencies = [frequency1 , frequency2 ,frequency3]
+    signal = 0.5 * np.sin(2 * np.pi * frequency1 * t) + 0.3 * np.sin(2 * np.pi * frequency2 * t) + 0.9 * np.sin(2 * np.pi * frequency3 * t)
 
     return [t , signal] ,frequencies
 
 test_signal = test_signal_maker()
 signal = CustomSignal(test_signal[0][0] , test_signal[0][1])
-signal.frequency_limits.extend(test_signal[1])
+signal.frequency_limits['cat'] = [(1,3) , (3,5)]
+signal.frequency_limits['horse'] = [(9,11)]
 equalize = EqualizingMode(signal)
 equalize.transform()
-equalize.equalize(signal.frequency_limits[0] - 1 , signal.frequency_limits[0] + 1 , 0)
+equalize.equalize(signal.frequency_limits['horse'] , 2)
+equalize.equalize(signal.frequency_limits['cat'] , 0)
 equalize.inverse()
+freq_viewer = FrequencyViewer(signal)
+freq_viewer.plot_freq_domain()
