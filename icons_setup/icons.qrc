@@ -1,0 +1,10 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource>
+
+    <file>..\icons_setup\icons\logo.png</file>
+    <file>..\icons_setup\icons\show.png</file>
+    <file>..\icons_setup\icons\hide.png</file>
+
+  </qresource>
+</RCC>
