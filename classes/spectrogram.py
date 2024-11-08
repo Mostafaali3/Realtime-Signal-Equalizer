@@ -1,12 +1,12 @@
-from customSignal import CustomSignal
+from classes.customSignal import CustomSignal
 import numpy as np 
 import pyqtgraph as pg 
 from scipy.signal import spectrogram
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QtGui
-import sys
+from PyQt5 import QtGui
 
-class spectogram(pg.PlotWidget):
-    def __init__(self, signal:CustomSignal, id:int):
+class Spectrogram(pg.PlotWidget):
+    def __init__(self, signal:CustomSignal = None, id:int = 1):
+        super().__init__()
         self.__current_signal = signal
         self.id = id
         
@@ -16,10 +16,10 @@ class spectogram(pg.PlotWidget):
             frequencies, time, intensities = 0, 0, 0
             if self.id == 1:
                 signal_y = self.__current_signal.original_signal[1]
-                frequencies, time, intensities = spectogram(signal_y, self.__current_signal.signal_sampling_rate)
+                frequencies, time, intensities = spectrogram(signal_y, self.__current_signal.signal_sampling_rate)
             else:
                 signal_y = self.__current_signal.reconstructed_signal[1]
-                frequencies, time, intensities = spectogram(signal_y, self.__current_signal.signal_sampling_rate)
+                frequencies, time, intensities = spectrogram(signal_y, self.__current_signal.signal_sampling_rate)
                 
             pg.setConfigOption(imageAxisOrder='row-major')
             image = pg.ImageItem()
