@@ -1,4 +1,4 @@
-from classes.customSignal import CustomSignal
+from classes.CustomSignal import CustomSignal
 from classes.modesEnum import Mode
 from classes.frequencyViewer import FrequencyViewer
 from classes.equalizingMode import EqualizingMode
@@ -26,8 +26,8 @@ class Controller():
     
     def plot_spectrogram(self):
         if self.__current_signal:
-            self.old_signal_spectrogram.current_signal = self.__current_signal
-            self.new_signal_spectrogram.current_signal = self.__current_signal
+            self.old_signal_spectrogram._current_signal = self.__current_signal
+            self.new_signal_spectrogram._current_signal = self.__current_signal
             self.old_signal_spectrogram.plot()
             self.new_signal_spectrogram.plot()
         
@@ -37,6 +37,7 @@ class Controller():
         self.equalizer.current_signal = self.__current_signal
         if len(self.__current_signal.original_linear_frequency[0]) == 0:
             self.equalizer.transform()
+        self.equalizer.inverse()
         self.plot_frequency_viewer()
         self.plot_spectrogram()
     
