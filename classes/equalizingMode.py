@@ -66,6 +66,8 @@ class EqualizingMode():
         self.signal_time_magnitude_values = self.current_signal.original_signal[1]
         self.current_signal.original_linear_frequency[0] = np.fft.rfftfreq(len(self.signal_time_magnitude_values) , 1 / self.current_signal.signal_sampling_rate)
         self.current_signal.original_linear_frequency[1] = np.fft.rfft(self.signal_time_magnitude_values)
+        self.current_signal.new_linear_frequency[0] = np.fft.rfftfreq(len(self.signal_time_magnitude_values) , 1 / self.current_signal.signal_sampling_rate)
+        self.current_signal.new_linear_frequency[1] = np.fft.rfft(self.signal_time_magnitude_values)
     
     def inverse(self):
         '''

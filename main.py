@@ -167,7 +167,6 @@ class MainWindow(QMainWindow):
         self.controller.set_current_signal(self.current_signal)
 
     def mouse_sound_level_slider_effect(self , slider_value):
-        print(slider_value)
         self.controller.equalizer.equalize( self.animals_freq_ranges['mouse'], factor = self.slider_values_map[slider_value])
         self.controller.set_current_signal(self.current_signal)
 
