@@ -1,4 +1,4 @@
-from classes.CustomSignal import CustomSignal
+from classes.customSignal import CustomSignal
 from classes.modesEnum import Mode
 from classes.frequencyViewer import FrequencyViewer
 from classes.equalizingMode import EqualizingMode
@@ -35,6 +35,10 @@ class Controller():
     def set_current_signal(self, signal:CustomSignal):
         self.__current_signal = signal
         self.equalizer.current_signal = self.__current_signal
+        if(self.mode == Mode.ANIMALS and self.frequency_viewer.view_scale == "Linear"):
+            self.frequency_viewer.frequency_boundaries = [10 , 300 , 600 , 1000 , 1700 , 1800 , 2400 , 3400 , 4500 ,6000 , 16000]
+        if(self.mode == Mode.ANIMALS and self.frequency_viewer.view_scale == "Audiogram"):
+            self.frequency_viewer.frequency_boundaries = [20 , 300 , 600 , 1000 , 1700 , 1800 , 2400 , 3400 , 4500 ,6000 , 16000]
         if len(self.__current_signal.original_linear_frequency[0]) == 0:
             self.equalizer.transform()
         self.equalizer.inverse()

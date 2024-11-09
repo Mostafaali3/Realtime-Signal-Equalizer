@@ -1,11 +1,11 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QPushButton, QFrame, QVBoxLayout , QSlider
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QPushButton, QFrame, QVBoxLayout , QSlider ,QComboBox
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon
 from helper_function.compile_qrc import compile_qrc
 from icons_setup.compiledIcons import *
 from classes.controller import Controller
-from classes.CustomSignal import CustomSignal
+from classes.customSignal import CustomSignal
 from classes.frequencyViewer import FrequencyViewer
 from classes.spectrogram import Spectrogram
 from scipy.io import wavfile
@@ -81,8 +81,8 @@ class MainWindow(QMainWindow):
         self.animals_freq_ranges = dict()
         self.animals_freq_ranges['dolphin'] = [(10,300) , (1000,1700) , (1800,3400)]
         self.animals_freq_ranges['eagle'] = [(2400,4500)] 
-        self.animals_freq_ranges['owl'] = [(400,600)] 
-        self.animals_freq_ranges['mouse'] = [(3000,16000)]
+        self.animals_freq_ranges['owl'] = [(300,600)] 
+        self.animals_freq_ranges['mouse'] = [(6000,16000)]
         
         self.dolphin_sound_level_slider = self.findChild(QSlider , "verticalSlider_19")
         self.dolphin_sound_level_slider.setMaximum(9)
@@ -118,6 +118,14 @@ class MainWindow(QMainWindow):
         
         self.before_modifiy_play_sound_button = self.findChild(QPushButton , "soundBeforeButton")
         self.before_modifiy_play_sound_button.pressed.connect(self.play_sound_before_modify)
+        
+        # Initialize Selected Mode ComboBox
+        self.selected_mode_combo_box = self.findChild(QComboBox  ,"modeComboBox")
+        self.selected_mode_combo_box.currentIndexChanged.connect(self.changed_mode_effect)
+    
+        # Initialize scale type in frequency viewer
+        self.frequency_viewer_scale = self.findChild(QComboBox , "comboBox")
+        self.frequency_viewer_scale.currentIndexChanged.connect(self.changed_frequency_viewer_scale_effect)
         
     def upload_signal(self):
         '''
@@ -177,6 +185,14 @@ class MainWindow(QMainWindow):
         sd.play(normalized_result_sound , self.current_signal.signal_sampling_rate)
         sd.wait()
 
+    def changed_mode_effect(self):
+        self.controller.mode = self.selected_mode_combo_box.currentText()
+    
+    def changed_frequency_viewer_scale_effect(self):
+        self.controller.frequency_viewer.view_scale = self.frequency_viewer_scale.currentText()
+        self.controller.set_current_signal(self.current_signal)
+
+    
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()
