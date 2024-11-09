@@ -34,11 +34,6 @@ class MainWindow(QMainWindow):
 
         self.showIcon = QIcon('icons_setup\icons\show.png')
         self.hideIcon = QIcon('icons_setup\icons\hide.png')
-
-        self.spectrogramsFrame = self.findChild(QFrame, 'spectrogramsFrame')
-        self.spectrogramDisplayButton = self.findChild(QPushButton, 'spectrogramDisplayButton')
-        self.spectrogramDisplayButton.clicked.connect(self.toggleSpectrogramDisplay)
-        
         
         ## browsing signal button
         self.browse_button = self.findChild(QPushButton, 'browseButton')
