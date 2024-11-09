@@ -87,10 +87,12 @@ class EqualizingMode():
         signal_rfft_result_magnitudes = np.abs(self.current_signal.original_linear_frequency[1])
         signal_rfft_result_phase = np.angle(self.current_signal.original_linear_frequency[1])
         for freq_range in pairs_of_freq_ranges:
-            equalized_signal_magnitudes = signal_rfft_result_magnitudes[freq_range[0]: freq_range[1]] * factor
-            equalized_signal_phase = signal_rfft_result_phase[freq_range[0]: freq_range[1]]
+            lower_bound_index = (np.abs(self.current_signal.original_linear_frequency[0] - freq_range[0])).argmin()
+            upper_bound_index = (np.abs(self.current_signal.original_linear_frequency[0] - freq_range[1])).argmin()
+            equalized_signal_magnitudes = signal_rfft_result_magnitudes[lower_bound_index: upper_bound_index] * factor
+            equalized_signal_phase = signal_rfft_result_phase[lower_bound_index: upper_bound_index]
             equalized_signal_components = equalized_signal_magnitudes * np.exp(1j * equalized_signal_phase)
-            self.current_signal.new_linear_frequency[1][freq_range[0] : freq_range[1]] =equalized_signal_components
+            self.current_signal.new_linear_frequency[1][lower_bound_index : upper_bound_index] =equalized_signal_components
             
 # def test_signal_maker():
 #     sampling_rate = 1000
