@@ -5,7 +5,7 @@ from PyQt5.QtGui import QIcon
 from helper_function.compile_qrc import compile_qrc
 from icons_setup.compiledIcons import *
 from classes.controller import Controller
-from classes.customSignal import CustomSignal
+from classes.CustomSignal import CustomSignal
 from classes.frequencyViewer import FrequencyViewer
 from classes.spectrogram import Spectrogram
 from scipy.io import wavfile
@@ -88,6 +88,13 @@ class MainWindow(QMainWindow):
         self.animals_freq_ranges['eagle'] = [(2400,4500)] 
         self.animals_freq_ranges['owl'] = [(300,600)] 
         self.animals_freq_ranges['mouse'] = [(6000,16000)]
+        
+        self.music_freq_ranges = dict()
+        self.music_freq_ranges['piano'] = [(0,10), (250, 275), (505, 540), (780, 790),(1040, 1060), (1565, 1590), (1840, 1850),(2105, 2120), (2375, 2395), (2650, 2665), (2925, 2940), (3200, 3215), (3487,3491), (3770, 3780), (4345, 4355), (4638, 4656), (4900, 4980)]
+        self.music_freq_ranges['violin'] = [(1020, 1060), (1520, 1600), (2560, 2640), (3080, 3180), (3590, 3720),(4110,4230),(4640,4650), (5140,5345)]
+        self.music_freq_ranges['triangle'] = [(4600, 5000), (5170, 5250), (5350, 5550), (5600,22000)]
+        self.music_freq_ranges['xilaphone'] = [(300,1000)]
+        
         
         self.dolphin_sound_level_slider = self.findChild(QSlider , "verticalSlider_19")
         self.dolphin_sound_level_slider.setMaximum(9)

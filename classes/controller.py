@@ -1,4 +1,4 @@
-from classes.customSignal import CustomSignal
+from classes.CustomSignal import CustomSignal
 from classes.modesEnum import Mode
 from classes.frequencyViewer import FrequencyViewer
 from classes.equalizingMode import EqualizingMode

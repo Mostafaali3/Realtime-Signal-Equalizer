@@ -1,4 +1,4 @@
-from classes.customSignal import CustomSignal
+from classes.CustomSignal import CustomSignal
 import pyqtgraph as pg
 import numpy as np
 

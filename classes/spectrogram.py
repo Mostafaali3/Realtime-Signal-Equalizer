@@ -1,4 +1,4 @@
-from classes.customSignal import CustomSignal
+from classes.CustomSignal import CustomSignal
 import numpy as np 
 import pyqtgraph as pg 
 from scipy.signal import spectrogram
