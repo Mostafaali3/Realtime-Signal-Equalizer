@@ -5,7 +5,7 @@ from PyQt5.QtGui import QIcon
 from helper_function.compile_qrc import compile_qrc
 from icons_setup.compiledIcons import *
 from classes.controller import Controller
-from classes.customSignal import CustomSignal
+from classes.CustomSignal import CustomSignal
 from classes.frequencyViewer import FrequencyViewer
 from classes.spectrogram import Spectrogram
 from scipy.io import wavfile

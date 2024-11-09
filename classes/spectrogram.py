@@ -1,4 +1,4 @@
-from classes.customSignal import CustomSignal
+from classes.CustomSignal import CustomSignal
 import numpy as np 
 import pyqtgraph as pg 
 from scipy.signal import spectrogram
@@ -7,19 +7,21 @@ from PyQt5 import QtGui
 class Spectrogram(pg.PlotWidget):
     def __init__(self, signal:CustomSignal = None, id:int = 1):
         super().__init__()
-        self.__current_signal = signal
+        self._current_signal = signal
         self.id = id
         
     def plot(self):
-        if self.__current_signal:
+        if self._current_signal:
             self.clear()
             frequencies, time, intensities = 0, 0, 0
             if self.id == 1:
-                signal_y = self.__current_signal.original_signal[1]
-                frequencies, time, intensities = spectrogram(signal_y, self.__current_signal.signal_sampling_rate)
+                signal_y = self._current_signal.original_signal[1]
+                frequencies, time, intensities = spectrogram(signal_y, self._current_signal.signal_sampling_rate)
             else:
-                signal_y = self.__current_signal.reconstructed_signal[1]
-                frequencies, time, intensities = spectrogram(signal_y, self.__current_signal.signal_sampling_rate)
+                if np.array_equal(self._current_signal.original_signal[1], self._current_signal.reconstructed_signal[1]):
+                    print("no change")
+                signal_y = self._current_signal.reconstructed_signal[1]
+                frequencies, time, intensities = spectrogram(signal_y, self._current_signal.signal_sampling_rate)
 
             intensities = np.log1p(intensities)  # Adds 1 to avoid log(0)
             image = pg.ImageItem(axisOrder='row-major')
@@ -32,18 +34,18 @@ class Spectrogram(pg.PlotWidget):
             image.setLevels([np.min(intensities), np.max(intensities)])
         
     
-    def clear(self):
-        self.clear()
-        self.__current_signal = None
+    # def clear(self):
+    #     self.clear()
+    #     self.__current_signal = None
         
-    @property
-    def current_signal(self):
-        return self.__current_signal
+    # @property
+    # def current_signal(self):
+    #     return self.__current_signal
     
-    @current_signal.setter
-    def current_signal(self, new_signal):
-        if isinstance(new_signal, CustomSignal):
-            self.__current_signal = new_signal
+    # @current_signal.setter
+    # def current_signal(self, new_signal):
+    #     if isinstance(new_signal, CustomSignal):
+    #         self.__current_signal = new_signal
 
 # from scipy import signal
 # import numpy as np
