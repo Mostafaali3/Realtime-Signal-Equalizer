@@ -10,7 +10,6 @@ from classes.frequencyViewer import FrequencyViewer
 from classes.spectrogram import Spectrogram
 from scipy.io import wavfile
 import numpy as np
-from helper_function.compile_qrc import compile_qrc
 import sounddevice as sd
 
 compile_qrc()
@@ -83,7 +82,7 @@ class MainWindow(QMainWindow):
         
         #Initializing Animals Mode Sliders adn dictionary
         
-        self.slider_values_map = [0 , 0.0625, 0.125, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0]
+        self.slider_values_map = [0 , 0, 0.125, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0]
         self.animals_freq_ranges = dict()
         self.animals_freq_ranges['dog'] = [(220,500) , (600,800)]
         self.animals_freq_ranges['crow'] = [(1725,1780) , (1800,1850)]
@@ -168,6 +167,7 @@ class MainWindow(QMainWindow):
         self.controller.set_current_signal(self.current_signal)
 
     def mouse_sound_level_slider_effect(self , slider_value):
+        print(slider_value)
         self.controller.equalizer.equalize( self.animals_freq_ranges['mouse'], factor = self.slider_values_map[slider_value])
         self.controller.set_current_signal(self.current_signal)
 
@@ -178,8 +178,8 @@ class MainWindow(QMainWindow):
     
     def play_sound_after_modify(self):
         self.controller.equalizer.inverse()
-        test = self.current_signal.reconstructed_signal[1] / np.max(np.abs(self.current_signal.reconstructed_signal[1]))
-        sd.play(test , self.current_signal.signal_sampling_rate)
+        normalized_result_sound = self.current_signal.reconstructed_signal[1] / np.max(np.abs(self.current_signal.reconstructed_signal[1]))
+        sd.play(normalized_result_sound , self.current_signal.signal_sampling_rate)
         sd.wait()
 
 if __name__ == '__main__':
