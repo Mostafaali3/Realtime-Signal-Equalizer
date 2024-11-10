@@ -12,7 +12,8 @@
     <file>..\icons_setup\icons\pause.png</file>
     <file>..\icons_setup\icons\replay.png</file>
     <file>..\icons_setup\icons\speedUp.png</file>
-    <file>..\icons_setup\icons\speedDown.png</file>
+    <file>..\icons_setup\icons\speedDown.png</file>    
+    <file>..\icons_setup\icons\speed.png</file>
     <file>..\icons_setup\icons\reset.png</file>
 
   </qresource>
