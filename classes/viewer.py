@@ -1,5 +1,5 @@
 import sys 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QHBoxLayout
 from PyQt5.QtCore import QTimer
 import pyqtgraph as pg
 import pandas as pd
@@ -34,7 +34,6 @@ class Channel(Waveform):
         self.__label = label
         self.__signal = self.y_array
         self.__visability = visability
-        
     @property
     def color(self):
         return self.__color
@@ -94,15 +93,13 @@ class Channel(Waveform):
     
     def get_duration():
         pass  
-    
-        
 
 class Viewer(pg.PlotWidget):
     def __init__(self):
         super().__init__()
         self.__channel = None
         self.__rewind_state = False
-        self.__cine_speed = 60
+        self.__cine_speed = 20
         self.__zoom = 1
         
         self.x_axis = []
@@ -113,11 +110,11 @@ class Viewer(pg.PlotWidget):
         
         self.viewBox = self.getViewBox()
         
-        self.y_axis_scroll_bar_enabled = False 
-        
+        self.panning_counter = None
         self.counter = 0
         self.time_window = 1000
-        
+        self.sampling_rate = 1  # Default value to avoid division errors if unset
+        self.total_duration = 1  # Will be updated when adding a channel        
         self.max_signals_value = -inf
         self.min_signals_value = inf    
         
@@ -127,29 +124,84 @@ class Viewer(pg.PlotWidget):
         self.x_range_tracker_min, self.x_range_tracker_max = 0,1000
         self.y_range_tracker_min, self.y_range_tracker_max = 0,1000
         
+        self.previous_x_range = self.viewRange()[0]
+
+        
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_signal)
-        # self.play()
-    
-    def update_signal(self):
+        # self.viewBox.sigXRangeChanged.connect(self.update_counter_from_view)
+    def update_counter_from_view(self, x_range):
+        """Update counter based on view while keeping it within bounds."""
+        start_idx = int(x_range[0] * self.sampling_rate)
         
-        if self.time_window + self.counter < len(self.x_axis):
-            self.counter += 20
-            # print(f"{self.viewRange()} range in updating")
-        else:
+        # Clamp the counter to stay within valid data range
+        self.counter = max(0, min(start_idx, len(self.x_axis) - 1000))
+        print(f"Updated counter from view to: {self.counter}")
+        self.update_signal()
+        
+    def mouseReleaseEvent(self, event):
+        """Trigger update_counter_from_view only after panning has ended."""
+        current_x_range = self.viewRange()[0]
+        if current_x_range != self.previous_x_range:
+            print(f'mouse released {current_x_range}')
+            self.update_counter_from_view(current_x_range)
+            self.previous_x_range = current_x_range
+
+        super().mouseReleaseEvent(event)
+        
+    def update_signal(self):
+        """Update the visible range based on the counter while limiting x-axis within bounds."""
+        print(f'update: {self.counter}')
+        
+        # Ensure counter does not go below 0 or above the maximum index
+        if self.counter < 0:
+            self.counter = 0
+        elif self.counter >= len(self.x_axis) - 1000:  # Ensure we stay within bounds
             if self.__rewind_state:
                 self.counter = 0
-        self.setXRange(min(self.x_axis[self.counter:self.counter + self.time_window]), max(self.x_axis[self.counter:self.counter + self.time_window])  )
+            else:
+                self.counter = len(self.x_axis) - 1000
+                self.timer.stop()
         
+        # Calculate the range to display, constrained by the x-axis boundaries
+        start_idx = max(0, self.counter)
+        end_idx = min(start_idx + 1000, len(self.x_axis) - 1)
+        
+        # Update the visible range on the plot
+        self.setXRange(self.x_axis[start_idx], self.x_axis[end_idx])
+            
+        # print(self)
+    
+    # def update_signal(self):
+        
+    #     # self.counter = int(current_x_range[0] * self.sampling_rate)
 
-        if self.counter + self.time_window > len(self.channel):
-            self.timer.stop()
-        min_channel_interval_value = min(self.channel.signal[self.counter:self.counter + self.time_window])
-        # if min_channel_interval_value < min_interval_value:
-        #     min_interval_value = min_channel_interval_value
-        max_channel_interval_value = max(self.channel.signal[self.counter:self.counter + self.time_window])
-        # if max_channel_interval_value > max_interval_value:
-        #     max_interval_value = max_channel_interval_value
+    #     if (self.counter + self.time_window * self.sampling_rate) < len(self.x_axis):
+            
+    #         self.counter += int(self.__cine_speed / self.sampling_rate)  # Steps forward by cine speed
+
+    #         # print(f"{self.viewRange()} range in updating")
+    #     else:
+    #         if self.__rewind_state:
+    #             self.counter = 0
+    #         else:
+    #             self.timer.stop()    
+    #     start_idx = self.counter
+    #     print(f"{start_idx}_test")
+    #     end_idx = start_idx + int(self.time_window * self.sampling_rate)
+    #     if end_idx > len(self.x_axis):  # Ensure end_idx is within bounds
+    #         end_idx = len(self.x_axis)
+
+    #     self.setXRange(self.x_axis[start_idx], self.x_axis[end_idx - 1])       
+    #     # self.setXRange(min(self.x_axis[self.counter:self.counter + self.time_window]), max(self.x_axis[self.counter:self.counter + self.time_window])  )
+    #     if self.counter + self.time_window > len(self.channel):
+    #         self.timer.stop()
+    #     # min_channel_interval_value = min(self.channel.signal[self.counter:self.counter + self.time_window])
+    #     # if min_channel_interval_value < min_interval_value:
+    #     #     min_interval_value = min_channel_interval_value
+    #     # max_channel_interval_value = max(self.channel.signal[self.counter:self.counter + self.time_window])
+    #     # if max_channel_interval_value > max_interval_value:
+    #     #     max_interval_value = max_channel_interval_value
 
     def add_channel(self , new_channel):
         if isinstance(new_channel, Channel):
@@ -161,10 +213,11 @@ class Viewer(pg.PlotWidget):
             
             self.__channel = new_channel
             self.x_axis = new_channel.x_array # x values based on the signal length
+            self.sampling_rate = new_channel.sampling_rate
             self.plot(new_channel.x_array, new_channel.signal, pen=pg.mkPen(color=new_channel.color))
 
             # Play automatically if data is valid
-            self.play()
+            # self.play()
         else:
             raise Exception("The new channel must be of class Channel")
             
@@ -191,25 +244,72 @@ class Viewer(pg.PlotWidget):
     #         # , yMin = self.min_signals_value, yMax = self.max_signals_value
         
     #     # print(f'{self.viewRange()} mm')
+    def set_limits(self):
+        """ Set global X and Y limits based on the signal. """
+        self.setLimits(
+            xMin=self.x_axis[0],
+            xMax=self.x_axis[-1],
+            yMin=min(self.__channel.signal),
+            yMax=max(self.__channel.signal)
+        )
+    # def play(self):
+    #     if not self.play_state and self.__channel is not None:
+    #         if len(self.x_axis) > 0 and len(self.__channel.signal) > 0:
+    #             print('start....')
+    #             self.timer.start(self.__cine_speed)
+    #             self.update_signal()
+    #             self.play_state = True
+    #             # if ((self.viewRange()[0][0]*self.sampling_rate)) > self.counter:
+    #             #     print(f'current {self.viewRange()[0][0]*self.sampling_rate}')
+    #             #     self.counter = int(self.viewRange()[0][0]*self.sampling_rate)
+                
+    #             # current_x_range = self.viewRange()[0]
+
+    #             # print(f"{current_x_range}_range_test")
+    #             # self.count = int(current_x_range[0]*self.sampling_rate)
+    #             # self.setXRange(self.x_axis[self.count], self.x_axis[sel+ int(self.time_window * self.sampling_rate)])       
+
+                
+    #             # self.counter = int(max(0, self.viewRange()[0][0]))
+    #             # # Set X and Y ranges only if finite values are available
+    #             # x_min, x_max = np.min(self.x_axis), np.max(self.x_axis)
+    #             # y_min, y_max = np.min(self.__channel.signal), np.max(self.__channel.signal)
+    #             # print(self.viewRange())
+    #             # if np.isfinite([x_min, x_max, y_min, y_max]).all():
+    #             #     self.setLimits(xMin=x_min, xMax=x_max, yMin=y_min, yMax=y_max)
+    #             #     self.setXRange(self.viewRange()[0][0] , self.viewRange()[0][0] + 1000)
+    #             # else:
+    #             #     print("Signal data has invalid range limits (inf/nan).")
+    #         else:
+    #             print("Cannot play: x_axis or channel signal is empty.")
+    
     def play(self):
-        if not self.play_state and self.__channel is not None:
-            if len(self.x_axis) > 0 and len(self.__channel.signal) > 0:
-                self.play_state = True
-                self.timer.start(self.__cine_speed)
-                self.counter = int(max(0, self.viewRange()[0][0]))
-                # Set X and Y ranges only if finite values are available
-                x_min, x_max = np.min(self.x_axis), np.max(self.x_axis)
-                y_min, y_max = np.min(self.__channel.signal), np.max(self.__channel.signal)
-                if np.isfinite([x_min, x_max, y_min, y_max]).all():
-                    self.setLimits(xMin=x_min, xMax=x_max, yMin=y_min, yMax=y_max)
-                    self.setXRange(self.viewRange()[0][0] + 50, self.viewRange()[0][0] + 1000)
-                else:
-                    print("Signal data has invalid range limits (inf/nan).")
-            else:
-                print("Cannot play: x_axis or channel signal is empty.")
+        """Starts or resumes the timer, ensuring it uses the updated counter value."""
+        if self.play_state:
+            self.play_state = False
+            self.timer.stop()  # Ensure the timer is fully reset
+        # Set view range based on the latest counter value
+            # start_idx = self.counter
+            # print(f"Play initiated from counter: {self.counter}")
+
+            # end_idx = start_idx + 1000  # Adjust window size as necessary
+            # if end_idx > len(self.x_axis):  # Ensure end_idx is within bounds
+            #     end_idx = len(self.x_axis)
+        else: 
+            self.play_state = True
+            self.timer.start(self.__cine_speed)
+
+
+            # self.setXRange(self.x_axis[start_idx], self.x_axis[end_idx])
+
+            # self.update_counter_from_view(self.viewRange()[0])
+
+            # self.update_signal()
+
+
         
     def replay(self):
-        if len(self.__channels):
+        if len(self.__channel):
             self.play()
             self.counter = 0
         
@@ -281,13 +381,15 @@ class Viewer(pg.PlotWidget):
         """Reset drag flag to False after the event."""
         self.drag_active = False
 
+# class CineModeController():
+#     def __init__(self, play_signal_button, replay_signal_button, speed_control_, frequency_sliders, hide_spectogram_button):
+#         self.play_signal_button = play_signal_button
+    
 def test_waveform_viewer():
     # Initialize QApplication
     app = QApplication(sys.argv)
-    
     # Set up a test file path (replace this with an actual audio file path)
-    file_path = "path/to/your/test_audio.mp3"  # Replace with a valid path to an audio file
-    
+    file_path = "D:/SBME/DSP/Tasks/DSP-Signal-Equalizer/data/test.mp3"  # Replace with a valid path to an audio file
     # Create a Waveform instance
     try:
         waveform = Waveform(file_path=file_path, wave_type='audio', mono=True)
@@ -300,14 +402,37 @@ def test_waveform_viewer():
     channel.signal = waveform.y_array  # Assign waveform data to the channel signal
     
     # Set up the Viewer
-    viewer = Viewer()
-    viewer.add_channel(channel)  # Add the channel to the viewer
+    viewer_1 = Viewer()
+    viewer_1.add_channel(channel)  # Add the channel to the viewer
+    viewer_2 = Viewer()
+    viewer_2.add_channel(channel) 
     
-    # Configure main window
+    viewer_2.setXLink(viewer_1)
+    viewer_2.setYLink(viewer_1)
+
+    # Create control buttons
+    play_button = QPushButton("Play")
+    pause_button = QPushButton("Pause")
+    replay_button = QPushButton("Replay")
+    
+    # Connect buttons to Viewer functions
+    play_button.clicked.connect(viewer_1.play)
+    pause_button.clicked.connect(viewer_1.pause)
+    replay_button.clicked.connect(viewer_1.replay)
+    
+    # Set up layout for buttons
+    button_layout = QHBoxLayout()
+    button_layout.addWidget(play_button)
+    button_layout.addWidget(pause_button)
+    button_layout.addWidget(replay_button)
+    
+    # Configure main window layout
     window = QMainWindow()
     central_widget = QWidget()
-    layout = QVBoxLayout(central_widget)
-    layout.addWidget(viewer)
+    main_layout = QVBoxLayout(central_widget)
+    main_layout.addWidget(viewer_1)
+    main_layout.addWidget(viewer_2)
+    main_layout.addLayout(button_layout)  # Add button layout to main layout
     window.setCentralWidget(central_widget)
     window.setWindowTitle("Audio Waveform Viewer")
     window.resize(800, 600)
