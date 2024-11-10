@@ -27,7 +27,6 @@ class FrequencyViewer(pg.PlotWidget):
             self.plot(self.current_signal.new_linear_frequency[0] , signal_rfft_result_magnitudes, pen=pg.mkPen(color = 'b' , width=1))
             # self.setYRange(min(self.current_signal.new_linear_frequency[1]),max(self.current_signal.new_linear_frequency[1]))
             
-            
     @property
     def current_signal(self):
         return self.__current_signal
