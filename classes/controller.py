@@ -34,8 +34,8 @@ class Controller():
     def plot_frequency_boundries(self):
         if(self.mode == Mode.ANIMALS):
             self.frequency_viewer.frequency_boundaries = [10 , 300 , 600 , 1000 , 1700 , 1800 , 2400 , 3400 , 4500 ,6000 , 16000]
-        if(self.mode == Mode.MUSIC):
-            self.frequency_viewer.frequency_boundaries
+        # if(self.mode == Mode.MUSIC):
+        #     self.frequency_viewer.frequency_boundaries
         # if(self.mode == Mode.ANIMALS and self.frequency_viewer.view_scale == "Audiogram"):
         #     self.frequency_viewer.frequency_boundaries = [20 , 300 , 600 , 1000 , 1700 , 1800 , 2400 , 3400 , 4500 ,6000 , 16000]
         

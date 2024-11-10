@@ -120,6 +120,36 @@ class MainWindow(QMainWindow):
         self.mouse_sound_level_slider.setValue(5)
         self.mouse_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'mouse'))
         
+        self.piano_sound_level_slider = self.findChild(QSlider , "verticalSlider_11")
+        self.piano_sound_level_slider.setMaximum(9)
+        self.piano_sound_level_slider.setMinimum(1)
+        self.piano_sound_level_slider.setPageStep(1)        
+        self.piano_sound_level_slider.setValue(5)
+        self.piano_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'piano'))
+        
+        self.violin_sound_level_slider = self.findChild(QSlider , "verticalSlider_12")
+        self.violin_sound_level_slider.setMaximum(9)
+        self.violin_sound_level_slider.setMinimum(1)
+        self.violin_sound_level_slider.setPageStep(1)        
+        self.violin_sound_level_slider.setValue(5)
+        self.violin_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'violin'))
+        
+        self.triangle_sound_level_slider = self.findChild(QSlider , "verticalSlider_13")
+        self.triangle_sound_level_slider.setMaximum(9)
+        self.triangle_sound_level_slider.setMinimum(1)
+        self.triangle_sound_level_slider.setPageStep(1)        
+        self.triangle_sound_level_slider.setValue(5)
+        self.triangle_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'triangle'))
+        
+        self.xilaphone_sound_level_slider = self.findChild(QSlider , "verticalSlider_14")
+        self.xilaphone_sound_level_slider.setMaximum(9)
+        self.xilaphone_sound_level_slider.setMinimum(1)
+        self.xilaphone_sound_level_slider.setPageStep(1)        
+        self.xilaphone_sound_level_slider.setValue(5)
+        self.xilaphone_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'xilaphone'))
+        
+        
+        
         # Initializing play button for sound before and after modification
         self.after_modifiy_play_sound_button = self.findChild(QPushButton , "soundAfterButton")
         self.after_modifiy_play_sound_button.pressed.connect(self.play_sound_after_modify)
