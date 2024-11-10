@@ -11,6 +11,7 @@ from classes.spectrogram import Spectrogram
 from scipy.io import wavfile
 import numpy as np
 import sounddevice as sd
+from classes.modesEnum import Mode
 
 compile_qrc()
 
@@ -78,17 +79,17 @@ class MainWindow(QMainWindow):
         #Initializing Animals Mode Sliders adn dictionary
         
         self.slider_values_map = [0 , 0, 0.125, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0]
-        self.animals_freq_ranges = dict()
-        self.animals_freq_ranges['dolphin'] = [(10,300) , (1000,1700) , (1800,3400)]
-        self.animals_freq_ranges['eagle'] = [(2400,4500)] 
-        self.animals_freq_ranges['owl'] = [(300,600)] 
-        self.animals_freq_ranges['mouse'] = [(6000,16000)]
+        self.all_freq_ranges = dict()
+        self.all_freq_ranges['dolphin'] = [(10,300) , (1000,1700) , (1800,3400)]
+        self.all_freq_ranges['eagle'] = [(2400,4500)] 
+        self.all_freq_ranges['owl'] = [(300,600)] 
+        self.all_freq_ranges['mouse'] = [(6000,16000)]
         
-        self.music_freq_ranges = dict()
-        self.music_freq_ranges['piano'] = [(0,10), (250, 275), (505, 540), (780, 790),(1040, 1060), (1565, 1590), (1840, 1850),(2105, 2120), (2375, 2395), (2650, 2665), (2925, 2940), (3200, 3215), (3487,3491), (3770, 3780), (4345, 4355), (4638, 4656), (4900, 4980)]
-        self.music_freq_ranges['violin'] = [(1020, 1060), (1520, 1600), (2560, 2640), (3080, 3180), (3590, 3720),(4110,4230),(4640,4650), (5140,5345)]
-        self.music_freq_ranges['triangle'] = [(4600, 5000), (5170, 5250), (5350, 5550), (5600,22000)]
-        self.music_freq_ranges['xilaphone'] = [(300,1000)]
+        # self.music_freq_ranges = dict()
+        self.all_freq_ranges['piano'] = [(0,10), (250, 275), (505, 540), (780, 790),(1040, 1060), (1565, 1590), (1840, 1850),(2105, 2120), (2375, 2395), (2650, 2665), (2925, 2940), (3200, 3215), (3487,3491), (3770, 3780), (4345, 4355), (4638, 4656), (4900, 4980)]
+        self.all_freq_ranges['violin'] = [(1020, 1060), (1520, 1600), (2560, 2640), (3080, 3180), (3590, 3720),(4110,4230),(4640,4650), (5140,5345)]
+        self.all_freq_ranges['triangle'] = [(4600, 5000), (5170, 5250), (5350, 5550), (5600,22000)]
+        self.all_freq_ranges['xilaphone'] = [(300,1000)]
         
         
         self.dolphin_sound_level_slider = self.findChild(QSlider , "verticalSlider_19")
@@ -96,28 +97,28 @@ class MainWindow(QMainWindow):
         self.dolphin_sound_level_slider.setMinimum(1)
         self.dolphin_sound_level_slider.setPageStep(1)
         self.dolphin_sound_level_slider.setValue(5)
-        self.dolphin_sound_level_slider.valueChanged.connect(self.dolphin_sound_level_slider_effect)
+        self.dolphin_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'dolphin'))
         
         self.eagle_sound_level_slider = self.findChild(QSlider , "verticalSlider_20")
         self.eagle_sound_level_slider.setMaximum(9)
         self.eagle_sound_level_slider.setMinimum(1)
         self.eagle_sound_level_slider.setPageStep(1)
         self.eagle_sound_level_slider.setValue(5)
-        self.eagle_sound_level_slider.valueChanged.connect(self.eagle_sound_level_slider_effect)
+        self.eagle_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'eagle'))
         
         self.owl_sound_level_slider = self.findChild(QSlider , "verticalSlider_21")
         self.owl_sound_level_slider.setMaximum(9)
         self.owl_sound_level_slider.setMinimum(1)
         self.owl_sound_level_slider.setPageStep(1)
         self.owl_sound_level_slider.setValue(5)
-        self.owl_sound_level_slider.valueChanged.connect(self.owl_sound_level_slider_effect)
+        self.owl_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'owl'))
         
         self.mouse_sound_level_slider = self.findChild(QSlider , "verticalSlider_22")
         self.mouse_sound_level_slider.setMaximum(9)
         self.mouse_sound_level_slider.setMinimum(1)
         self.mouse_sound_level_slider.setPageStep(1)        
         self.mouse_sound_level_slider.setValue(5)
-        self.mouse_sound_level_slider.valueChanged.connect(self.mouse_sound_level_slider_effect)
+        self.mouse_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'mouse'))
         
         # Initializing play button for sound before and after modification
         self.after_modifiy_play_sound_button = self.findChild(QPushButton , "soundAfterButton")
@@ -163,22 +164,31 @@ class MainWindow(QMainWindow):
             self.spectrogramsFrame.show()
             self.spectrogramDisplayButton.setIcon(self.hideIcon)
         self.isSpectrogramDisplayed = not self.isSpectrogramDisplayed
-
-    def dolphin_sound_level_slider_effect(self , slider_value):
-        self.controller.equalizer.equalize( self.animals_freq_ranges['dolphin'], factor = self.slider_values_map[slider_value])
+        
+    def sound_level_slider_effect(self, slider_value, name):
+        self.controller.equalizer.equalize( self.all_freq_ranges[name], factor = self.slider_values_map[slider_value])
         self.controller.set_current_signal(self.current_signal)
     
-    def eagle_sound_level_slider_effect(self , slider_value):
-        self.controller.equalizer.equalize( self.animals_freq_ranges['eagle'], factor = self.slider_values_map[slider_value])
-        self.controller.set_current_signal(self.current_signal)
-
-    def mouse_sound_level_slider_effect(self , slider_value):
-        self.controller.equalizer.equalize( self.animals_freq_ranges['mouse'], factor = self.slider_values_map[slider_value])
-        self.controller.set_current_signal(self.current_signal)
+    # def animal_sound_level_slider_effect(self, slider_value, animal_name):
+    #     self.controller.equalizer.equalize( self.animals_freq_ranges[animal_name], factor = self.slider_values_map[slider_value])
+    #     self.controller.set_current_signal(self.current_signal)
     
-    def owl_sound_level_slider_effect(self , slider_value):
-        self.controller.equalizer.equalize( self.animals_freq_ranges['owl'], factor = self.slider_values_map[slider_value])
-        self.controller.set_current_signal(self.current_signal)
+
+    # def dolphin_sound_level_slider_effect(self , slider_value):
+    #     self.controller.equalizer.equalize( self.animals_freq_ranges['dolphin'], factor = self.slider_values_map[slider_value])
+    #     self.controller.set_current_signal(self.current_signal)
+    
+    # def eagle_sound_level_slider_effect(self , slider_value):
+    #     self.controller.equalizer.equalize( self.animals_freq_ranges['eagle'], factor = self.slider_values_map[slider_value])
+    #     self.controller.set_current_signal(self.current_signal)
+
+    # def mouse_sound_level_slider_effect(self , slider_value):
+    #     self.controller.equalizer.equalize( self.animals_freq_ranges['mouse'], factor = self.slider_values_map[slider_value])
+    #     self.controller.set_current_signal(self.current_signal)
+    
+    # def owl_sound_level_slider_effect(self , slider_value):
+    #     self.controller.equalizer.equalize( self.animals_freq_ranges['owl'], factor = self.slider_values_map[slider_value])
+    #     self.controller.set_current_signal(self.current_signal)
 
 
     

@@ -31,14 +31,19 @@ class Controller():
             self.old_signal_spectrogram.plot()
             self.new_signal_spectrogram.plot()
         
+    def plot_frequency_boundries(self):
+        if(self.mode == Mode.ANIMALS):
+            self.frequency_viewer.frequency_boundaries = [10 , 300 , 600 , 1000 , 1700 , 1800 , 2400 , 3400 , 4500 ,6000 , 16000]
+        if(self.mode == Mode.MUSIC):
+            self.frequency_viewer.frequency_boundaries
+        # if(self.mode == Mode.ANIMALS and self.frequency_viewer.view_scale == "Audiogram"):
+        #     self.frequency_viewer.frequency_boundaries = [20 , 300 , 600 , 1000 , 1700 , 1800 , 2400 , 3400 , 4500 ,6000 , 16000]
+        
     
     def set_current_signal(self, signal:CustomSignal):
         self.__current_signal = signal
         self.equalizer.current_signal = self.__current_signal
-        if(self.mode == Mode.ANIMALS and self.frequency_viewer.view_scale == "Linear"):
-            self.frequency_viewer.frequency_boundaries = [10 , 300 , 600 , 1000 , 1700 , 1800 , 2400 , 3400 , 4500 ,6000 , 16000]
-        if(self.mode == Mode.ANIMALS and self.frequency_viewer.view_scale == "Audiogram"):
-            self.frequency_viewer.frequency_boundaries = [20 , 300 , 600 , 1000 , 1700 , 1800 , 2400 , 3400 , 4500 ,6000 , 16000]
+        self.plot_frequency_boundries()
         if len(self.__current_signal.original_linear_frequency[0]) == 0:
             self.equalizer.transform()
         self.equalizer.inverse()
