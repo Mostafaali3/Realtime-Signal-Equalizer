@@ -8,12 +8,14 @@ from classes.controller import Controller
 from classes.CustomSignal import CustomSignal
 from classes.frequencyViewer import FrequencyViewer
 from classes.spectrogram import Spectrogram
+from classes.viewer import Viewer
+
 from scipy.io import wavfile
 import numpy as np
 import sounddevice as sd
 from classes.modesEnum import Mode
 
-compile_qrc()
+# compile_qrc()
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -41,6 +43,25 @@ class MainWindow(QMainWindow):
         self.browse_button.clicked.connect(self.upload_signal)
         
         ## initializing the viewers
+        self.old_signal_viewer = Viewer(id =1)
+        self.new_signal_viewer = Viewer(id =2)
+
+        self.old_signal_frame = self.findChild(QFrame, 'timeDomainGraph2Frame')
+        self.new_signal_frame = self.findChild(QFrame, 'timeDomainGraph1Frame')
+        
+        self.old_signal_layout = QVBoxLayout()
+        self.new_signal_layout = QVBoxLayout()
+        
+        self.old_signal_frame.setLayout(self.old_signal_layout)
+        self.new_signal_frame.setLayout(self.new_signal_layout)
+
+        self.old_signal_layout.addWidget(self.old_signal_viewer)
+        self.new_signal_layout.addWidget(self.new_signal_viewer)
+        
+        
+
+
+        
         self.frequency_viewer = FrequencyViewer(scale="Linear")
         self.frequency_viewer.setBackground((30, 41, 59))
         self.frequency_viewer.getAxis('bottom').setPen('w')
@@ -74,7 +95,7 @@ class MainWindow(QMainWindow):
         self.new_spectrogram_frame_layout.addWidget(self.new_signal_spectrogram)
         
 
-        self.controller = Controller(frequency_viewer=self.frequency_viewer, old_signal_spectrogram=self.old_signal_spectrogram, new_signal_spectrogram=self.new_signal_spectrogram)
+        self.controller = Controller(frequency_viewer=self.frequency_viewer, old_signal_spectrogram=self.old_signal_spectrogram, new_signal_spectrogram=self.new_signal_spectrogram, old_signal_viewer=self.old_signal_viewer, new_signal_viewer=self.new_signal_viewer)
         
         #Initializing Animals Mode Sliders adn dictionary
         
@@ -261,7 +282,8 @@ class MainWindow(QMainWindow):
 
     def changed_mode_effect(self):
         pass
-
+    
+        
     def upload_signal(self):
         '''
         handles loading the signal

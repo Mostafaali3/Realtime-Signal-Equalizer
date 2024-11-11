@@ -3,22 +3,31 @@ from classes.modesEnum import Mode
 from classes.frequencyViewer import FrequencyViewer
 from classes.equalizingMode import EqualizingMode
 from classes.spectrogram import Spectrogram
-
+from classes.viewer import Viewer
 class Controller():
     '''
     mode: should be one of the modes in the enum 
     '''
-    def __init__(self,old_signal_spectrogram:Spectrogram, new_signal_spectrogram:Spectrogram,  frequency_viewer:FrequencyViewer,  mode:str = Mode.ANIMALS, signal:CustomSignal = None):
+    def __init__(self,old_signal_spectrogram:Spectrogram, new_signal_spectrogram:Spectrogram,  frequency_viewer:FrequencyViewer, old_signal_viewer:Viewer, new_signal_viewer:Viewer, mode:str = Mode.ANIMALS, signal:CustomSignal = None):
         self.__current_signal = signal
         self.mode = mode
-        self.old_signal_viewer = None
-        self.new_signal_viewer = None
+        self.old_signal_viewer = old_signal_viewer
+        self.new_signal_viewer = new_signal_viewer
+        
         self.old_signal_spectrogram = old_signal_spectrogram
         self.new_signal_spectrogram = new_signal_spectrogram
         
         self.frequency_viewer = frequency_viewer
         self.equalizer = EqualizingMode()
         
+    def link_two_viewers(sedlf, original, contructed):
+        contructed.setXLink(original)
+        contructed.setYLink(original)
+        
+    def plot_time_domain_signals(self) :
+        self.old_signal_viewer.add_signal(self.__current_signal)
+        self.new_signal_viewer.add_signal(self.__current_signal)
+        self.link_two_viewers(self.old_signal_viewer, self.new_signal_viewer)   
         
     def plot_frequency_viewer(self):
         self.frequency_viewer.current_signal = self.__current_signal
@@ -52,6 +61,7 @@ class Controller():
         self.equalizer.inverse()
         self.plot_frequency_viewer()
         self.plot_spectrogram()
+        self.plot_time_domain_signals()
     
     def clear(self):
         pass

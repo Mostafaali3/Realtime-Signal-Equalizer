@@ -8,7 +8,7 @@ class CustomSignal():
         self.__original_linear_frequency = linear_frequency
         self.__new_linear_frequency = [[],[]]
         self.__signal_sampling_rate = 1 / (self.original_signal[0][1] - self.original_signal[0][0])
-        
+        self.color = "r"
     @property
     def original_signal(self):
         return self.__original_signal
