@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QPushButton, QFrame, QVBoxLayout , QSlider ,QComboBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QPushButton, QFrame, QVBoxLayout , QSlider ,QComboBox, QStackedWidget
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon
 from helper_function.compile_qrc import compile_qrc
@@ -90,8 +90,84 @@ class MainWindow(QMainWindow):
         self.all_freq_ranges['violin'] = [(1020, 1060), (1520, 1600), (2560, 2640), (3080, 3180), (3590, 3720),(4110,4230),(4640,4650), (5140,5345)]
         self.all_freq_ranges['triangle'] = [(4600, 5000), (5170, 5250), (5350, 5550), (5600,22000)]
         self.all_freq_ranges['xilaphone'] = [(300,1000)]
-        
-        
+
+        # add uniform frequency ranges
+        start = 0
+        for i in range(10):
+            self.all_freq_ranges['uniform' + str(i+1)] = [(start, start + 2205)]
+            start += 2205
+
+        # add uniform sliders
+        self.uniform_1_slider = self.findChild(QSlider , "verticalSlider")
+        self.uniform_1_slider.setMaximum(9)
+        self.uniform_1_slider.setMinimum(1)
+        self.uniform_1_slider.setPageStep(1)
+        self.uniform_1_slider.setValue(5)
+        self.uniform_1_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform1'))
+
+        self.uniform_2_slider = self.findChild(QSlider , "verticalSlider_2")
+        self.uniform_2_slider.setMaximum(9)
+        self.uniform_2_slider.setMinimum(1)
+        self.uniform_2_slider.setPageStep(1)
+        self.uniform_2_slider.setValue(5)
+        self.uniform_2_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform2'))
+
+        self.uniform_3_slider = self.findChild(QSlider , "verticalSlider_3")
+        self.uniform_3_slider.setMaximum(9)
+        self.uniform_3_slider.setMinimum(1)
+        self.uniform_3_slider.setPageStep(1)
+        self.uniform_3_slider.setValue(5)
+        self.uniform_3_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform3'))
+
+        self.uniform_4_slider = self.findChild(QSlider , "verticalSlider_4")
+        self.uniform_4_slider.setMaximum(9)
+        self.uniform_4_slider.setMinimum(1)
+        self.uniform_4_slider.setPageStep(1)
+        self.uniform_4_slider.setValue(5)
+        self.uniform_4_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform4'))
+
+        self.uniform_5_slider = self.findChild(QSlider , "verticalSlider_5")
+        self.uniform_5_slider.setMaximum(9)
+        self.uniform_5_slider.setMinimum(1)
+        self.uniform_5_slider.setPageStep(1)
+        self.uniform_5_slider.setValue(5)
+        self.uniform_5_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform5'))
+
+        self.uniform_6_slider = self.findChild(QSlider , "verticalSlider_6")
+        self.uniform_6_slider.setMaximum(9)
+        self.uniform_6_slider.setMinimum(1)
+        self.uniform_6_slider.setPageStep(1)
+        self.uniform_6_slider.setValue(5)
+        self.uniform_6_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform6'))
+
+        self.uniform_7_slider = self.findChild(QSlider , "verticalSlider_7")
+        self.uniform_7_slider.setMaximum(9)
+        self.uniform_7_slider.setMinimum(1)
+        self.uniform_7_slider.setPageStep(1)
+        self.uniform_7_slider.setValue(5)
+        self.uniform_7_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform7'))
+
+        self.uniform_8_slider = self.findChild(QSlider , "verticalSlider_8")
+        self.uniform_8_slider.setMaximum(9)
+        self.uniform_8_slider.setMinimum(1)
+        self.uniform_8_slider.setPageStep(1)
+        self.uniform_8_slider.setValue(5)
+        self.uniform_8_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform8'))
+
+        self.uniform_9_slider = self.findChild(QSlider , "verticalSlider_9")
+        self.uniform_9_slider.setMaximum(9)
+        self.uniform_9_slider.setMinimum(1)
+        self.uniform_9_slider.setPageStep(1)
+        self.uniform_9_slider.setValue(5)
+        self.uniform_9_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform9'))
+
+        self.uniform_10_slider = self.findChild(QSlider , "verticalSlider_10")
+        self.uniform_10_slider.setMaximum(9)
+        self.uniform_10_slider.setMinimum(1)
+        self.uniform_10_slider.setPageStep(1)
+        self.uniform_10_slider.setValue(5)
+        self.uniform_10_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform10'))
+
         self.dolphin_sound_level_slider = self.findChild(QSlider , "verticalSlider_19")
         self.dolphin_sound_level_slider.setMaximum(9)
         self.dolphin_sound_level_slider.setMinimum(1)
@@ -158,13 +234,34 @@ class MainWindow(QMainWindow):
         self.before_modifiy_play_sound_button.pressed.connect(self.play_sound_before_modify)
         
         # Initialize Selected Mode ComboBox
-        self.selected_mode_combo_box = self.findChild(QComboBox  ,"modeComboBox")
+        self.selected_mode_combo_box = self.findChild(QComboBox, "modeComboBox")
         self.selected_mode_combo_box.currentIndexChanged.connect(self.changed_mode_effect)
+
+        self.stacked_widget = self.findChild(QStackedWidget, "siderModes")
+        print(self.stacked_widget)
+
+        self.mode_to_page = {
+            "Uniform Range": 0,
+            "Musical Instruments": 1,
+            "Animal Sounds": 2,
+            "ECG Abnormalities": 3
+        }
+
+        self.selected_mode_combo_box.currentIndexChanged.connect(self.change_page)
+
     
         # Initialize scale type in frequency viewer
         self.frequency_viewer_scale = self.findChild(QComboBox , "comboBox")
         self.frequency_viewer_scale.currentIndexChanged.connect(self.changed_frequency_viewer_scale_effect)
         
+    def change_page(self):
+        mode = self.selected_mode_combo_box.currentText()
+        page_index = self.mode_to_page.get(mode, 0)
+        self.stacked_widget.setCurrentIndex(page_index)
+
+    def changed_mode_effect(self):
+        pass
+
     def upload_signal(self):
         '''
         handles loading the signal

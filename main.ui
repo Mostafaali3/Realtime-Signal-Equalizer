@@ -1223,7 +1223,7 @@ border-radius: 10px
          <string notr="true">margin:0;</string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="uniformMode">
          <property name="minimumSize">
@@ -1236,8 +1236,8 @@ border-radius: 10px
           <string notr="true"/>
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="0">
-           <widget class="QSlider" name="verticalSlider">
+          <item row="0" column="9">
+           <widget class="QSlider" name="verticalSlider_10">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -1250,7 +1250,21 @@ border-radius: 10px
             </property>
            </widget>
           </item>
-          <item row="0" column="2">
+          <item row="0" column="6">
+           <widget class="QSlider" name="verticalSlider_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QSlider" name="verticalSlider">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
            <widget class="QSlider" name="verticalSlider_4">
             <property name="styleSheet">
              <string notr="true"/>
@@ -1260,35 +1274,14 @@ border-radius: 10px
             </property>
            </widget>
           </item>
-          <item row="0" column="3">
+          <item row="0" column="4">
            <widget class="QSlider" name="verticalSlider_5">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
            </widget>
           </item>
-          <item row="0" column="4">
-           <widget class="QSlider" name="verticalSlider_6">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="5">
-           <widget class="QSlider" name="verticalSlider_7">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="6">
-           <widget class="QSlider" name="verticalSlider_8">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="7">
+          <item row="0" column="8">
            <widget class="QSlider" name="verticalSlider_9">
             <property name="styleSheet">
              <string notr="true"/>
@@ -1298,14 +1291,21 @@ border-radius: 10px
             </property>
            </widget>
           </item>
-          <item row="0" column="8">
-           <widget class="QSlider" name="verticalSlider_10">
+          <item row="0" column="5">
+           <widget class="QSlider" name="verticalSlider_6">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
            </widget>
           </item>
-          <item row="0" column="9">
+          <item row="0" column="7">
+           <widget class="QSlider" name="verticalSlider_8">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
            <widget class="QSlider" name="verticalSlider_3">
             <property name="styleSheet">
              <string notr="true"/>
