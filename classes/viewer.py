@@ -55,13 +55,17 @@ class Viewer(pg.PlotWidget):
         # Calculate the range to display, constrained by the x-axis boundaries
         start_value = max(0, self.viewRange()[0][0])+(self.__cine_speed/10000)*self.x_axis[-1]
         end_value = min(start_value + self.window_size*self.x_axis[-1], self.x_axis[-1])
-        start_idx = start_value*self.sampling_rate
-        end_idx = end_value*self.sampling_rate
-        self.setLimits(yMin=min(self.y_axis[start_idx:end_idx]) , yMax=max(self.y_axis[start_idx:end_idx]))
+        
+        start_idx = int(start_value*self.sampling_rate)
+        end_idx = int(end_value*self.sampling_rate)
+        
+        self.setLimits(yMin=int(min(self.y_axis[start_idx:end_idx])) , yMax=int(max(self.y_axis[start_idx:end_idx])))
+        
         if end_value >= self.x_axis[-1]:
             self.timer.stop()
         # Update the visible range on the plot
         self.setXRange(start_value, end_value)
+        
             
         # print(self)
     
@@ -72,18 +76,22 @@ class Viewer(pg.PlotWidget):
                 print("Channel signal contains invalid data (inf/nan or empty).")
                 return
             
+            self.x_axis = []
+            self.y_axis = []
+            
             self.x_axis = signal.original_signal[0] # x values based on the signal length
             self.sampling_rate = signal.signal_sampling_rate
+            
             if self.id == 1:
                 self.label = 'Original'
                 self.y_axis = signal.original_signal[1]
-            elif self.id ==2:
+            elif self.id == 2:
                 self.label = 'Modified'
-                self.y_axis = signal.reconstructed_signal
-                
+                self.y_axis = signal.reconstructed_signal[1]
+            print(f'x type: {type(self.x_axis)} x length: {len(self.x_axis)} y type:{type(self.y)}')
             self.plot(self.x_axis, self.y_axis, pen=pg.mkPen(color='r'))
             
-            self.setLimits(xMin=self.x_axis[0],xMax=self.x_axis[-1],yMin=min(self.y_axis), yMax=max(self.y_axis))
+            self.setLimits(xMin=0,xMax=self.x_axis[-1],yMin=int(min(self.y_axis)), yMax=int(max(self.y_axis)))
             
         else:
             raise Exception("The new channel must be of class Channel")

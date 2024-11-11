@@ -48,6 +48,10 @@ class MainWindow(QMainWindow):
 
         self.old_signal_frame = self.findChild(QFrame, 'timeDomainGraph2Frame')
         self.new_signal_frame = self.findChild(QFrame, 'timeDomainGraph1Frame')
+        self.play_pause_button = self.findChild(QPushButton, 'playPauseButton')
+        self.replay_button = self.findChild(QPushButton,'replayButton')
+        self.play_pause_button.clicked.connect(self.old_signal_viewer.play)
+
         
         self.old_signal_layout = QVBoxLayout()
         self.new_signal_layout = QVBoxLayout()
@@ -57,10 +61,6 @@ class MainWindow(QMainWindow):
 
         self.old_signal_layout.addWidget(self.old_signal_viewer)
         self.new_signal_layout.addWidget(self.new_signal_viewer)
-        
-        
-
-
         
         self.frequency_viewer = FrequencyViewer(scale="Linear")
         self.frequency_viewer.setBackground((30, 41, 59))
@@ -77,7 +77,6 @@ class MainWindow(QMainWindow):
         self.new_signal_spectrogram.getAxis('bottom').setPen('w')
         self.new_signal_spectrogram.getAxis('left').setPen('w') 
         
-        
         ## adding the frequency viwer 
         self.frequency_frame = self.findChild(QFrame, 'frequencyFrame')
         self.frequency_frame_layout = QVBoxLayout()
@@ -93,7 +92,6 @@ class MainWindow(QMainWindow):
         self.new_spectrogram_frame_layout = QVBoxLayout()
         self.new_spectrogram_frame.setLayout(self.new_spectrogram_frame_layout)
         self.new_spectrogram_frame_layout.addWidget(self.new_signal_spectrogram)
-        
 
         self.controller = Controller(frequency_viewer=self.frequency_viewer, old_signal_spectrogram=self.old_signal_spectrogram, new_signal_spectrogram=self.new_signal_spectrogram, old_signal_viewer=self.old_signal_viewer, new_signal_viewer=self.new_signal_viewer)
         
