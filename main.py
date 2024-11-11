@@ -277,10 +277,6 @@ class MainWindow(QMainWindow):
         mode = self.selected_mode_combo_box.currentText()
         page_index = self.mode_to_page.get(mode, 0)
         self.stacked_widget.setCurrentIndex(page_index)
-
-    def changed_mode_effect(self):
-        pass
-    
         
     def upload_signal(self):
         '''
@@ -341,16 +337,18 @@ class MainWindow(QMainWindow):
     
     def play_sound_before_modify(self):
         sd.play(self.current_signal.original_signal[1] , self.current_signal.signal_sampling_rate)
-        sd.wait()
+        # sd.wait()
     
     def play_sound_after_modify(self):
         self.controller.equalizer.inverse()
         normalized_result_sound = self.current_signal.reconstructed_signal[1] / np.max(np.abs(self.current_signal.reconstructed_signal[1]))
         sd.play(normalized_result_sound , self.current_signal.signal_sampling_rate)
-        sd.wait()
+        # sd.wait()
 
     def changed_mode_effect(self):
         self.controller.mode = self.selected_mode_combo_box.currentText()
+        self.controller.set_current_signal(self.current_signal)
+
     
     def changed_frequency_viewer_scale_effect(self):
         self.controller.frequency_viewer.view_scale = self.frequency_viewer_scale.currentText()
