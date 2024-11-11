@@ -22,7 +22,7 @@ class Controller():
         
     def link_two_viewers(sedlf, original, contructed):
         contructed.setXLink(original)
-        contructed.setYLink(original)
+        # contructed.setYLink(original)
         
     def plot_time_domain_signals(self) :
         

@@ -1,4 +1,5 @@
 import sys
+import pandas as pd
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QPushButton, QFrame, QVBoxLayout , QSlider ,QComboBox, QStackedWidget
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon
@@ -288,7 +289,8 @@ class MainWindow(QMainWindow):
         '''
         file_path, _ = QFileDialog.getOpenFileName(self,'Open File','', 'CSV Files (*.csv);;WAV Files (*.wav);;MP3 Files (*.mp3);;All Files (*)')
         if file_path.endswith('.csv'):
-            pass
+            y_data = pd.read_csv(file_path)
+            print(y_data.shape)
         elif file_path.endswith('.wav'):
             sample_rate, data_y = wavfile.read(file_path)
             data_x = np.linspace(0, len(data_y)/sample_rate, len(data_y))
