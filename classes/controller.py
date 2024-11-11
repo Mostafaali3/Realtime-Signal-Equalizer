@@ -8,7 +8,7 @@ class Controller():
     '''
     mode: should be one of the modes in the enum 
     '''
-    def __init__(self,old_signal_spectrogram:Spectrogram, new_signal_spectrogram:Spectrogram,  frequency_viewer:FrequencyViewer, old_signal_viewer:Viewer, new_signal_viewer:Viewer, mode:str = Mode.ANIMALS, signal:CustomSignal = None):
+    def __init__(self,old_signal_spectrogram:Spectrogram, new_signal_spectrogram:Spectrogram,  frequency_viewer:FrequencyViewer, old_signal_viewer:Viewer, new_signal_viewer:Viewer, mode:str = Mode.UNIFORM, signal:CustomSignal = None):
         self.__current_signal = signal
         self.mode = mode
         self.old_signal_viewer = old_signal_viewer
@@ -45,7 +45,7 @@ class Controller():
             self.frequency_viewer.frequency_boundaries = [10 , 300 , 600 , 1000 , 1700 , 1800 , 2400 , 3400 , 4500 ,6000 , 16000]
 
         if(self.mode == Mode.UNIFORM):
-            self.frequency_viewer.frequency_boundaries = [2205, 4410, 8820, 17640, 35280, 70560, 141120, 282240, 564480, 1128960, 2257920]
+            self.frequency_viewer.frequency_boundaries = [2205, 4410, 6615, 8820, 11025, 13230, 15435, 17640, 19845, 22050]
         # if(self.mode == Mode.MUSIC):
         #     self.frequency_viewer.frequency_boundaries
         # if(self.mode == Mode.ANIMALS and self.frequency_viewer.view_scale == "Audiogram"):

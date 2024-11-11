@@ -632,6 +632,12 @@ margin: 10 0;</string>
                  <height>200</height>
                 </size>
                </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>200</height>
+                </size>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QFrame{
 background-color: #1E293B;
@@ -668,6 +674,12 @@ border-radius: 10px
                <property name="minimumSize">
                 <size>
                  <width>500</width>
+                 <height>200</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
                  <height>200</height>
                 </size>
                </property>
