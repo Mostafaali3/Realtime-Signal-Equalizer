@@ -2,12 +2,9 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QHBoxLayout
 from PyQt5.QtCore import QTimer
 import pyqtgraph as pg
-import pandas as pd
 import numpy as np
 from math import inf
-import struct
-import pyaudio
-import librosa
+
 import sounddevice as sd
 
 from classes.CustomSignal import CustomSignal
@@ -26,7 +23,7 @@ class Viewer(pg.PlotWidget):
         self.__zoom = 1
         
         self.x_axis = []
-        
+    
         self.drag_active = False  
         
         self.play_state = False

@@ -25,15 +25,16 @@ class Controller():
         contructed.setYLink(original)
         
     def plot_time_domain_signals(self) :
-        if self.old_signal_viewer.y_axis is None:
-            self.old_signal_viewer.add_signal(self.__current_signal)
-        if self.new_signal_viewer.y_axis is None:
-            self.new_signal_viewer.add_signal(self.__current_signal)
-            self.link_two_viewers(self.old_signal_viewer, self.new_signal_viewer)   
-        else: 
-            self.new_signal_viewer.y_axis = self.__current_signal.reconstructed_signal[1]
         
+        self.old_signal_viewer.clear()
+        self.new_signal_viewer.clear()
+        
+        self.old_signal_viewer.add_signal(self.__current_signal)
+        self.new_signal_viewer.add_signal(self.__current_signal)
         self.link_two_viewers(self.old_signal_viewer, self.new_signal_viewer)   
+    
+        
+        
         
     def plot_frequency_viewer(self):
         self.frequency_viewer.current_signal = self.__current_signal
