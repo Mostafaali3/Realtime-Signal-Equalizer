@@ -85,14 +85,14 @@ class MainWindow(QMainWindow):
         self.frequency_viewer.getAxis('left').setPen('w') 
         
         self.old_signal_spectrogram = Spectrogram(id = 1)
-        self.old_signal_spectrogram.setBackground((30, 41, 59))
-        self.old_signal_spectrogram.getAxis('bottom').setPen('w')
-        self.old_signal_spectrogram.getAxis('left').setPen('w') 
+        self.old_signal_spectrogram.plot_widget.setBackground((30, 41, 59))
+        self.old_signal_spectrogram.plot_widget.getAxis('bottom').setPen('w')
+        self.old_signal_spectrogram.plot_widget.getAxis('left').setPen('w') 
         
         self.new_signal_spectrogram = Spectrogram(id = 2)
-        self.new_signal_spectrogram.setBackground((30, 41, 59))
-        self.new_signal_spectrogram.getAxis('bottom').setPen('w')
-        self.new_signal_spectrogram.getAxis('left').setPen('w') 
+        self.new_signal_spectrogram.plot_widget.setBackground((30, 41, 59))
+        self.new_signal_spectrogram.plot_widget.getAxis('bottom').setPen('w')
+        self.new_signal_spectrogram.plot_widget.getAxis('left').setPen('w') 
         
         
         ## adding the frequency viwer 
@@ -116,7 +116,7 @@ class MainWindow(QMainWindow):
         
         #Initializing Animals Mode Sliders adn dictionary
         
-        self.slider_values_map = [0 , 0, 0.125, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0]
+        self.slider_values_map = [0.125/4,0.125/2,0.125, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0]
         self.all_freq_ranges = dict()
         self.all_freq_ranges['dolphin'] = [(10,300) , (1000,1700) , (1800,3400)]
         self.all_freq_ranges['eagle'] = [(2400,4500)] 
