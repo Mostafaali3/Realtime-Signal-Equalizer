@@ -28,6 +28,9 @@ class MainWindow(QMainWindow):
         self.showIcon = QIcon('icons_setup\icons\show.png')
         self.hideIcon = QIcon('icons_setup\icons\hide.png')
 
+        self.soundFrame = self.findChild(QFrame, 'soundFrame')
+        self.soundFrame.hide()
+
         self.spectrogramsFrame = self.findChild(QFrame, 'spectrogramsFrame')
         self.spectrogramDisplayButton = self.findChild(QPushButton, 'spectrogramDisplayButton')
         self.spectrogramDisplayButton.clicked.connect(self.toggleSpectrogramDisplay)
@@ -293,10 +296,16 @@ class MainWindow(QMainWindow):
         mode = self.selected_mode_combo_box.currentText()
         page_index = self.mode_to_page.get(mode, 0)
         self.stacked_widget.setCurrentIndex(page_index)
+        self.show_hide_sound_frame()
 
     def changed_mode_effect(self):
         pass
     
+    def show_hide_sound_frame(self):
+        if self.selected_mode_combo_box.currentText() == 'Animal Sounds' or self.selected_mode_combo_box.currentText() == 'Musical Instruments':
+            self.soundFrame.show()
+        else:
+            self.soundFrame.hide()
         
     def upload_signal(self):
         '''
