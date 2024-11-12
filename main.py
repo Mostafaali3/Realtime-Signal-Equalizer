@@ -9,7 +9,7 @@ from classes.CustomSignal import CustomSignal
 from classes.frequencyViewer import FrequencyViewer
 from classes.spectrogram import Spectrogram
 from classes.viewer import Viewer
-
+import pandas as pd
 from scipy.io import wavfile
 import numpy as np
 import sounddevice as sd
@@ -376,13 +376,13 @@ class MainWindow(QMainWindow):
     
     def play_sound_before_modify(self):
         sd.play(self.current_signal.original_signal[1] , self.current_signal.signal_sampling_rate)
-        sd.wait()
+        # sd.wait()
     
     def play_sound_after_modify(self):
         self.controller.equalizer.inverse()
         normalized_result_sound = self.current_signal.reconstructed_signal[1] / np.max(np.abs(self.current_signal.reconstructed_signal[1]))
         sd.play(normalized_result_sound , self.current_signal.signal_sampling_rate)
-        sd.wait()
+        # sd.wait()
 
     def changed_mode_effect(self):
         self.controller.mode = self.selected_mode_combo_box.currentText()
