@@ -8,7 +8,7 @@ class Controller():
     '''
     mode: should be one of the modes in the enum 
     '''
-    def __init__(self,old_signal_spectrogram:Spectrogram, new_signal_spectrogram:Spectrogram,  frequency_viewer:FrequencyViewer, old_signal_viewer:Viewer, new_signal_viewer:Viewer, mode:str = Mode.UNIFORM, signal:CustomSignal = None):
+    def __init__(self,old_signal_spectrogram:Spectrogram, new_signal_spectrogram:Spectrogram,  frequency_viewer:FrequencyViewer, old_signal_viewer:Viewer, new_signal_viewer:Viewer, mode:str = Mode.UNIFORM.value, signal:CustomSignal = None):
         self.__current_signal = signal
         self.mode = mode
         self.old_signal_viewer = old_signal_viewer
@@ -48,13 +48,16 @@ class Controller():
             self.new_signal_spectrogram.plot()
         
     def plot_frequency_boundries(self):
-        if(self.mode == Mode.ANIMALS):
+        if(self.mode == Mode.ANIMALS.value):
             self.frequency_viewer.frequency_boundaries = [10 , 300 , 600 , 1000 , 1700 , 1800 , 2400 , 3400 , 4500 ,6000 , 16000]
 
-        if(self.mode == Mode.UNIFORM):
+        if(self.mode == Mode.UNIFORM.value):
             self.frequency_viewer.frequency_boundaries = [2205, 4410, 6615, 8820, 11025, 13230, 15435, 17640, 19845, 22050]
-        # if(self.mode == Mode.MUSIC):
-        #     self.frequency_viewer.frequency_boundaries
+        if(self.mode == Mode.MUSIC.value):
+            self.frequency_viewer.frequency_boundaries =  [0, 10, 250, 275, 505, 540, 780, 790, 1040, 1060, 1565, 1590, 1840, 1850, 2105, 2120, 2375, 2395, 2650, 2665, 2925, 2940, 3200, 3215, 3487, 3491, 3770, 3780, 4345, 4355, 4638, 4656, 4900, 4980 ,
+                                                            1020, 1060, 1520, 1600, 2560, 2640, 3080, 3180, 3590, 3720, 4110, 4230, 4640, 4650, 5140, 5345,
+                                                            4600 , 5000, 5170, 5250, 5350, 5550 , 5600, 22000,
+                                                            300 , 1000]
         # if(self.mode == Mode.ANIMALS and self.frequency_viewer.view_scale == "Audiogram"):
         #     self.frequency_viewer.frequency_boundaries = [20 , 300 , 600 , 1000 , 1700 , 1800 , 2400 , 3400 , 4500 ,6000 , 16000]
         

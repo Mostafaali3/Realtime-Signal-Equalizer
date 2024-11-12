@@ -85,7 +85,7 @@ class Viewer(pg.PlotWidget):
             elif self.id == 2:
                 self.label = 'Modified'
                 self.y_axis = signal.reconstructed_signal[1]
-            print(f'x type: {type(self.x_axis)} x length: {len(self.x_axis)} y type:{type(self.y)}')
+            # print(f'x type: {type(self.x_axis)} x length: {len(self.x_axis)} y type:{type(self.y)}')
             self.plot(self.x_axis, self.y_axis, pen=pg.mkPen(color='r'))
             
             self.setLimits(xMin=0,xMax=self.x_axis[-1],yMin=int(min(self.y_axis)), yMax=int(max(self.y_axis)))
