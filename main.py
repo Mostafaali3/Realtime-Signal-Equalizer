@@ -298,6 +298,7 @@ class MainWindow(QMainWindow):
         handles loading the signal
         '''
         file_path, _ = QFileDialog.getOpenFileName(self,'Open File','', 'CSV Files (*.csv);;WAV Files (*.wav);;MP3 Files (*.mp3);;All Files (*)')
+        
         if file_path.endswith('.csv'):
             data = pd.read_csv(file_path)
             data_x = np.array(data['X'].tolist())
