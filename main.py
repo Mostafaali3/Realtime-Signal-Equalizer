@@ -1,5 +1,4 @@
 import sys
-import pandas as pd
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QPushButton, QFrame, QVBoxLayout , QSlider ,QComboBox, QStackedWidget
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon
@@ -73,6 +72,10 @@ class MainWindow(QMainWindow):
         self.old_signal_layout.addWidget(self.old_signal_viewer)
         self.new_signal_layout.addWidget(self.new_signal_viewer)
         
+        
+
+
+        
         self.frequency_viewer = FrequencyViewer(scale="Linear")
         self.frequency_viewer.setBackground((30, 41, 59))
         self.frequency_viewer.getAxis('bottom').setPen('w')
@@ -87,6 +90,7 @@ class MainWindow(QMainWindow):
         self.new_signal_spectrogram.setBackground((30, 41, 59))
         self.new_signal_spectrogram.getAxis('bottom').setPen('w')
         self.new_signal_spectrogram.getAxis('left').setPen('w') 
+        
         
         ## adding the frequency viwer 
         self.frequency_frame = self.findChild(QFrame, 'frequencyFrame')
@@ -103,6 +107,7 @@ class MainWindow(QMainWindow):
         self.new_spectrogram_frame_layout = QVBoxLayout()
         self.new_spectrogram_frame.setLayout(self.new_spectrogram_frame_layout)
         self.new_spectrogram_frame_layout.addWidget(self.new_signal_spectrogram)
+        
 
         self.controller = Controller(frequency_viewer=self.frequency_viewer, old_signal_spectrogram=self.old_signal_spectrogram, new_signal_spectrogram=self.new_signal_spectrogram, old_signal_viewer=self.old_signal_viewer, new_signal_viewer=self.new_signal_viewer)
         
@@ -288,6 +293,10 @@ class MainWindow(QMainWindow):
         mode = self.selected_mode_combo_box.currentText()
         page_index = self.mode_to_page.get(mode, 0)
         self.stacked_widget.setCurrentIndex(page_index)
+
+    def changed_mode_effect(self):
+        pass
+    
         
     def upload_signal(self):
         '''
@@ -358,18 +367,16 @@ class MainWindow(QMainWindow):
     
     def play_sound_before_modify(self):
         sd.play(self.current_signal.original_signal[1] , self.current_signal.signal_sampling_rate)
-        # sd.wait()
+        sd.wait()
     
     def play_sound_after_modify(self):
         self.controller.equalizer.inverse()
         normalized_result_sound = self.current_signal.reconstructed_signal[1] / np.max(np.abs(self.current_signal.reconstructed_signal[1]))
         sd.play(normalized_result_sound , self.current_signal.signal_sampling_rate)
-        # sd.wait()
+        sd.wait()
 
     def changed_mode_effect(self):
         self.controller.mode = self.selected_mode_combo_box.currentText()
-        self.controller.set_current_signal(self.current_signal)
-
     
     def changed_frequency_viewer_scale_effect(self):
         self.controller.frequency_viewer.view_scale = self.frequency_viewer_scale.currentText()
