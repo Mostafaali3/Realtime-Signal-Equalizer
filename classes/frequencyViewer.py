@@ -17,6 +17,7 @@ class FrequencyViewer(pg.PlotWidget):
             for x_value in self.frequency_boundaries:
                 self.addItem(pg.InfiniteLine(pos=x_value, angle=90, pen=pg.mkPen(color='r', width=2)))
             self.setLogMode(x=False, y=False)
+            self.invertY(False)
             self.plot(self.current_signal.new_linear_frequency[0] , list(signal_rfft_result_magnitudes), pen=pg.mkPen(color = 'b' , width=1))
             # self.setYRange(min(self.current_signal.new_linear_frequency[1]),max(self.current_signal.new_linear_frequency[1]))
         
@@ -24,6 +25,7 @@ class FrequencyViewer(pg.PlotWidget):
             for x_value in self.frequency_boundaries:
                 self.addItem(pg.PlotDataItem([x_value, x_value], [0, 800000000], pen=pg.mkPen(color='r', width=2)))
             self.setLogMode(x=True, y=False)
+            self.invertY(True)
             self.plot(self.current_signal.new_linear_frequency[0] , signal_rfft_result_magnitudes, pen=pg.mkPen(color = 'b' , width=1))
             # self.setYRange(min(self.current_signal.new_linear_frequency[1]),max(self.current_signal.new_linear_frequency[1]))
             
