@@ -43,6 +43,8 @@ class MainWindow(QMainWindow):
         self.browse_button = self.findChild(QPushButton, 'browseButton')
         self.browse_button.clicked.connect(self.upload_signal)
         
+        
+        
         ## initializing the viewers
         self.old_signal_viewer = Viewer(id =1)
         self.new_signal_viewer = Viewer(id =2)
@@ -51,8 +53,16 @@ class MainWindow(QMainWindow):
         self.new_signal_frame = self.findChild(QFrame, 'timeDomainGraph1Frame')
         self.play_pause_button = self.findChild(QPushButton, 'playPauseButton')
         self.replay_button = self.findChild(QPushButton,'replayButton')
-        self.play_pause_button.clicked.connect(self.old_signal_viewer.play)
+        self.rewind_button = self.findChild(QPushButton, 'pushButton_5')
+        self.speed_up_button = self.findChild(QPushButton, 'pushButton_4')
+        self.slow_down_button = self.findChild(QPushButton, 'pushButton_3')
 
+        self.play_pause_button.clicked.connect(self.old_signal_viewer.play)
+        self.replay_button.clicked.connect(self.old_signal_viewer.replay)
+        self.rewind_button.clicked.connect(self.old_signal_viewer.rewind)
+        self.speed_up_button.clicked.connect(self.old_signal_viewer.cine_speed_up)
+        self.slow_down_button.clicked.connect(self.old_signal_viewer.cine_slow_down)
+        
         
         self.old_signal_layout = QVBoxLayout()
         self.new_signal_layout = QVBoxLayout()
@@ -289,8 +299,16 @@ class MainWindow(QMainWindow):
         '''
         file_path, _ = QFileDialog.getOpenFileName(self,'Open File','', 'CSV Files (*.csv);;WAV Files (*.wav);;MP3 Files (*.mp3);;All Files (*)')
         if file_path.endswith('.csv'):
-            y_data = pd.read_csv(file_path)
-            print(y_data.shape)
+            data = pd.read_csv(file_path)
+            data_x = np.array(data['X'].tolist())
+            data_y = np.array(data['Y'].tolist())
+            sample_rate = 1/(data_x[1] - data_x[0])
+            new_signal = CustomSignal(data_y= data_y, data_x=data_x, linear_frequency=[[], []]) 
+            new_signal.signal_sampling_rate = sample_rate
+            self.current_signal = new_signal
+            self.controller.set_current_signal(new_signal)
+            print(sample_rate)
+            
         elif file_path.endswith('.wav'):
             sample_rate, data_y = wavfile.read(file_path)
             data_x = np.linspace(0, len(data_y)/sample_rate, len(data_y))
