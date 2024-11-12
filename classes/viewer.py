@@ -17,9 +17,11 @@ class Viewer(pg.PlotWidget):
         self.label = None
         self._current_signal = None
         self.id = id
-        
+        self.window_size = 0.05 # [0:1] a normalized value that decide what % of the signal will be viewed on the screen
+
         self.__rewind_state = False
-        self.__cine_speed = 30 # it has range form 10 to 100
+        self.__cine_speed = 30 # it has range form 20 to 50
+        self.speed_iteration = 2
         self.__zoom = 1
         
         self.x_axis = []
@@ -29,7 +31,6 @@ class Viewer(pg.PlotWidget):
         self.play_state = False
         
         self.viewBox = self.getViewBox()
-        self.window_size = 0.05 # [0:1] a normalized value that decide what % of the signal will be viewed on the screen
         self.time_window = 1000
         self.sampling_rate = 1  # Default value to avoid division errors if unset
         self.total_duration = 1  # Will be updated when adding a channel        
@@ -46,10 +47,9 @@ class Viewer(pg.PlotWidget):
 
             
     def update_signal(self):
-        
-        
         """Update the visible range based on the counter while limiting x-axis within bounds."""           
         # Calculate the range to display, constrained by the x-axis boundaries
+        # speed controls need to be modifed to adjust based on the signal it self and ists window
         start_value = max(0, self.viewRange()[0][0])+(self.__cine_speed/10000)*self.x_axis[-1]
         end_value = min(start_value + self.window_size*self.x_axis[-1], self.x_axis[-1])
         
@@ -103,14 +103,12 @@ class Viewer(pg.PlotWidget):
             self.play_state = True
             self.timer.start(self.__cine_speed)
 
-
         
     def replay(self):
-        if len(self._current_signal):
-            start_value = 0
-            end_value = self.window_size*self.x_axis[-1]
-            self.setXRange(start_value, end_value)        
-        
+        start_value = 0
+        end_value = self.window_size*self.x_axis[-1]
+        self.setXRange(start_value, end_value)        
+    
     def pause(self):
         self.play_state = False
         self.timer.stop()
@@ -135,12 +133,17 @@ class Viewer(pg.PlotWidget):
         return self.__cine_speed
     
     # @cine_speed.setter
-    def cine_speed(self , new_speed):
-        """
-        new_speed: the input must range between 10 and 50 
-        """
-        if(new_speed > 0):
-            self.__cine_speed = new_speed
+    def cine_speed_up(self):
+
+        if(self.__cine_speed <=50):
+            self.__cine_speed += self.speed_iteration
+        else:
+            raise Exception("Speed of cine must be less than 100")
+        pass
+    def cine_slow_down(self):
+
+        if(self.__cine_speed > 20):
+            self.__cine_speed -= self.speed_iteration
         else: 
             raise Exception("Speed of cine must be greater than zero")
         pass
