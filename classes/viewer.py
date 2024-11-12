@@ -42,6 +42,7 @@ class Viewer(pg.PlotWidget):
         
         # self.scrolling_in_y_axis = False
         
+        self.setBackground((30, 41, 59))
         
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_signal)
