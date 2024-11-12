@@ -17,11 +17,14 @@ class Viewer(pg.PlotWidget):
         self.label = None
         self._current_signal = None
         self.id = id
-        self.window_size = 0.05 # [0:1] a normalized value that decide what % of the signal will be viewed on the screen
+        self.window_size = 0.05 # [0:100] a normalized value that decide what % of the signal will be viewed on the screen
 
         self.__rewind_state = False
-        self.__cine_speed = 30 # it has range form 20 to 50
-        self.speed_iteration = 2
+        self.__cine_speed = 70 # 
+        self.signal_update_speed = 10
+        self.signal_update_speed_iterartion = 1
+
+        self.speed_iteration = 10
         self.__zoom = 1
         
         self.x_axis = []
@@ -50,7 +53,7 @@ class Viewer(pg.PlotWidget):
         """Update the visible range based on the counter while limiting x-axis within bounds."""           
         # Calculate the range to display, constrained by the x-axis boundaries
         # speed controls need to be modifed to adjust based on the signal it self and ists window
-        start_value = max(0, self.viewRange()[0][0])+(self.__cine_speed/10000)*self.x_axis[-1]
+        start_value = max(0, self.viewRange()[0][0])+((self.signal_update_speed)/100)*self.window_size*self.x_axis[-1]
         end_value = min(start_value + self.window_size*self.x_axis[-1], self.x_axis[-1])
         
         start_idx = int(start_value*self.sampling_rate)
@@ -101,7 +104,7 @@ class Viewer(pg.PlotWidget):
             self.timer.stop()  # Ensure the timer is fully reset
         else: 
             self.play_state = True
-            self.timer.start(self.__cine_speed)
+            self.timer.start(int(self.__cine_speed))
 
         
     def replay(self):
@@ -134,16 +137,17 @@ class Viewer(pg.PlotWidget):
     
     # @cine_speed.setter
     def cine_speed_up(self):
-
-        if(self.__cine_speed <=50):
+        if(self.__cine_speed <=100 and self.signal_update_speed <15):
             self.__cine_speed += self.speed_iteration
+            self.signal_update_speed += self.signal_update_speed_iterartion
         else:
             raise Exception("Speed of cine must be less than 100")
         pass
     def cine_slow_down(self):
-
-        if(self.__cine_speed > 20):
+        if(self.__cine_speed > 49 and self.signal_update_speed > 5):
             self.__cine_speed -= self.speed_iteration
+            self.signal_update_speed -= self.signal_update_speed_iterartion
+
         else: 
             raise Exception("Speed of cine must be greater than zero")
         pass
