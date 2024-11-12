@@ -9,7 +9,7 @@ from classes.CustomSignal import CustomSignal
 from classes.frequencyViewer import FrequencyViewer
 from classes.spectrogram import Spectrogram
 from classes.viewer import Viewer
-
+import pandas as pd
 from scipy.io import wavfile
 import numpy as np
 import sounddevice as sd
@@ -306,8 +306,9 @@ class MainWindow(QMainWindow):
         
         if file_path.endswith('.csv'):
             data = pd.read_csv(file_path)
-            data_x = np.array(data['X'].tolist())
-            data_y = np.array(data['Y'].tolist())
+            columns = data.columns
+            data_x = np.array(data[columns[0]].tolist())
+            data_y = np.array(data[columns[1]].tolist())
             sample_rate = 1/(data_x[1] - data_x[0])
             new_signal = CustomSignal(data_y= data_y, data_x=data_x, linear_frequency=[[], []]) 
             new_signal.signal_sampling_rate = sample_rate

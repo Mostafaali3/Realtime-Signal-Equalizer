@@ -33,9 +33,7 @@ class Controller():
         self.new_signal_viewer.add_signal(self.__current_signal)
         self.link_two_viewers(self.old_signal_viewer, self.new_signal_viewer)   
     
-        
-        
-        
+           
     def plot_frequency_viewer(self):
         self.frequency_viewer.current_signal = self.__current_signal
         self.frequency_viewer.plot_freq_domain()
