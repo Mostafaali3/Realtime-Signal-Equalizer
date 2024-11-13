@@ -9,7 +9,7 @@ from classes.CustomSignal import CustomSignal
 from classes.frequencyViewer import FrequencyViewer
 from classes.spectrogram import Spectrogram
 from classes.viewer import Viewer
-
+import pandas as pd
 from scipy.io import wavfile
 import numpy as np
 import sounddevice as sd
@@ -85,14 +85,14 @@ class MainWindow(QMainWindow):
         self.frequency_viewer.getAxis('left').setPen('w') 
         
         self.old_signal_spectrogram = Spectrogram(id = 1)
-        self.old_signal_spectrogram.setBackground((30, 41, 59))
-        self.old_signal_spectrogram.getAxis('bottom').setPen('w')
-        self.old_signal_spectrogram.getAxis('left').setPen('w') 
+        self.old_signal_spectrogram.plot_widget.setBackground((30, 41, 59))
+        self.old_signal_spectrogram.plot_widget.getAxis('bottom').setPen('w')
+        self.old_signal_spectrogram.plot_widget.getAxis('left').setPen('w') 
         
         self.new_signal_spectrogram = Spectrogram(id = 2)
-        self.new_signal_spectrogram.setBackground((30, 41, 59))
-        self.new_signal_spectrogram.getAxis('bottom').setPen('w')
-        self.new_signal_spectrogram.getAxis('left').setPen('w') 
+        self.new_signal_spectrogram.plot_widget.setBackground((30, 41, 59))
+        self.new_signal_spectrogram.plot_widget.getAxis('bottom').setPen('w')
+        self.new_signal_spectrogram.plot_widget.getAxis('left').setPen('w') 
         
         
         ## adding the frequency viwer 
@@ -116,7 +116,7 @@ class MainWindow(QMainWindow):
         
         #Initializing Animals Mode Sliders adn dictionary
         
-        self.slider_values_map = [0 , 0, 0.125, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0]
+        self.slider_values_map = [0.125/4,0.125/2,0.125, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0]
         self.all_freq_ranges = dict()
         self.all_freq_ranges['dolphin'] = [(10,300) , (1000,1700) , (1800,3400)]
         self.all_freq_ranges['eagle'] = [(2400,4500)] 
@@ -134,7 +134,43 @@ class MainWindow(QMainWindow):
         for i in range(10):
             self.all_freq_ranges['uniform' + str(i+1)] = [(start, start + 2205)]
             start += 2205
-
+        # add ECG abnormalities:
+                              
+        self.all_freq_ranges["Normal"] =[ (0,35)]
+        self.all_freq_ranges["Artirial Fibr"] =[ (48, 52)]
+        self.all_freq_ranges["Tachycardia"] =[ (55, 94)]
+        self.all_freq_ranges["Ventriacal Fibr"] =[ (95, 155)]
+        # Ecg Sliders
+        self.normal_slider = self.findChild(QSlider , "verticalSlider_15")
+        self.normal_slider.setMaximum(9)
+        self.normal_slider.setMinimum(1)
+        self.normal_slider.setPageStep(1)
+        self.normal_slider.setValue(5)
+        self.normal_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Normal'))
+        
+        self.art_slider = self.findChild(QSlider , "verticalSlider_16")
+        self.art_slider.setMaximum(9)
+        self.art_slider.setMinimum(1)
+        self.art_slider.setPageStep(1)
+        self.art_slider.setValue(5)
+        self.art_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Artirial Fibr'))
+        
+        self.tachy_slider = self.findChild(QSlider , "verticalSlider_17")
+        self.tachy_slider.setMaximum(9)
+        self.tachy_slider.setMinimum(1)
+        self.tachy_slider.setPageStep(1)
+        self.tachy_slider.setValue(5)
+        self.tachy_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Tachycardia'))
+        
+        self.Vent_slider = self.findChild(QSlider , "verticalSlider_18")
+        self.Vent_slider.setMaximum(9)
+        self.Vent_slider.setMinimum(1)
+        self.Vent_slider.setPageStep(1)
+        self.Vent_slider.setValue(5)
+        self.Vent_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Ventriacal Fibr'))
+        
+        
+        
         # add uniform sliders
         self.uniform_1_slider = self.findChild(QSlider , "verticalSlider")
         self.uniform_1_slider.setMaximum(9)
@@ -264,6 +300,7 @@ class MainWindow(QMainWindow):
         
         
         
+        
         # Initializing play button for sound before and after modification
         self.after_modifiy_play_sound_button = self.findChild(QPushButton , "soundAfterButton")
         self.after_modifiy_play_sound_button.pressed.connect(self.play_sound_after_modify)
@@ -315,15 +352,28 @@ class MainWindow(QMainWindow):
         
         if file_path.endswith('.csv'):
             data = pd.read_csv(file_path)
-            data_x = np.array(data['X'].tolist())
-            data_y = np.array(data['Y'].tolist())
+            columns = data.columns
+            data_x = np.array(data[columns[0]].tolist())
+            data_y = np.array(data[columns[1]].tolist())
             sample_rate = 1/(data_x[1] - data_x[0])
             new_signal = CustomSignal(data_y= data_y, data_x=data_x, linear_frequency=[[], []]) 
             new_signal.signal_sampling_rate = sample_rate
             self.current_signal = new_signal
             self.controller.set_current_signal(new_signal)
             print(sample_rate)
-            
+        
+        elif file_path.endswith('.dat'):
+            data = pd.read_csv(file_path, delimiter='\t')
+            columns = data.columns
+            data_x = np.array(data[columns[0]].tolist())
+            data_y = np.array(data[columns[1]].tolist())
+            sample_rate = 1/(data_x[1] - data_x[0])
+            new_signal = CustomSignal(data_y= data_y, data_x=data_x, linear_frequency=[[], []]) 
+            new_signal.signal_sampling_rate = sample_rate
+            self.current_signal = new_signal
+            self.controller.set_current_signal(new_signal)
+            print(sample_rate)   
+        
         elif file_path.endswith('.wav'):
             sample_rate, data_y = wavfile.read(file_path)
             data_x = np.linspace(0, len(data_y)/sample_rate, len(data_y))
@@ -376,13 +426,13 @@ class MainWindow(QMainWindow):
     
     def play_sound_before_modify(self):
         sd.play(self.current_signal.original_signal[1] , self.current_signal.signal_sampling_rate)
-        sd.wait()
+        # sd.wait()
     
     def play_sound_after_modify(self):
         self.controller.equalizer.inverse()
         normalized_result_sound = self.current_signal.reconstructed_signal[1] / np.max(np.abs(self.current_signal.reconstructed_signal[1]))
         sd.play(normalized_result_sound , self.current_signal.signal_sampling_rate)
-        sd.wait()
+        # sd.wait()
 
     def changed_mode_effect(self):
         self.controller.mode = self.selected_mode_combo_box.currentText()

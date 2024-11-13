@@ -19,7 +19,7 @@ class Viewer(pg.PlotWidget):
         self.id = id
         self.window_size = 0.05 # [0:100] a normalized value that decide what % of the signal will be viewed on the screen
 
-        self.__rewind_state = False
+        self.__rewind_state = True
         self.__cine_speed = 70 # 
         self.signal_update_speed = 10
         self.signal_update_speed_iterartion = 1
@@ -42,6 +42,7 @@ class Viewer(pg.PlotWidget):
         
         # self.scrolling_in_y_axis = False
         
+        self.setBackground((30, 41, 59))
         
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_signal)
@@ -59,13 +60,16 @@ class Viewer(pg.PlotWidget):
         start_idx = int(start_value*self.sampling_rate)
         end_idx = int(end_value*self.sampling_rate)
         
-        self.setLimits(yMin=int(min(self.y_axis[start_idx:end_idx])) , yMax=int(max(self.y_axis[start_idx:end_idx])))
+        # self.setLimits(yMin=int(min(self.y_axis[start_idx:end_idx])-1) , yMax=int(max(self.y_axis[start_idx:end_idx])+1))
         
         if end_value >= self.x_axis[-1]:
-            self.timer.stop()
+            self.replay()
+            # if self.__rewind_state:
+            #     self.replay()
+            # else: self.timer.stop()
+
         # Update the visible range on the plot
         self.setXRange(start_value, end_value)
-        
             
         # print(self)
     
@@ -75,24 +79,27 @@ class Viewer(pg.PlotWidget):
             if not np.isfinite(signal.original_signal[1]).all() or len(signal.original_signal[1]) == 0:
                 print("Channel signal contains invalid data (inf/nan or empty).")
                 return
-            
+            item = self.currentItem
+            if item:
+                self.removeItem(item)
             self.x_axis = []
             self.y_axis = []
             
-            self.x_axis = signal.original_signal[0] # x values based on the signal length
-            self.sampling_rate = signal.signal_sampling_rate
-            
             if self.id == 1:
                 self.label = 'Original'
+                self.x_axis = signal.original_signal[0] # x values based on the signal length
+                self.sampling_rate = signal.signal_sampling_rate
                 self.y_axis = signal.original_signal[1]
             elif self.id == 2:
                 self.label = 'Modified'
+                self.x_axis = signal.reconstructed_signal[0] # x values based on the signal length
+                self.sampling_rate = int(1/(self.x_axis[4]-self.x_axis[3]))
                 self.y_axis = signal.reconstructed_signal[1]
             # print(f'x type: {type(self.x_axis)} x length: {len(self.x_axis)} y type:{type(self.y)}')
-            self.plot(self.x_axis, self.y_axis, pen=pg.mkPen(color='r'))
-            
-            self.setLimits(xMin=0,xMax=self.x_axis[-1],yMin=int(min(self.y_axis)), yMax=int(max(self.y_axis)))
-            
+            self.plot(self.x_axis, self.y_axis, pen=pg.mkPen(color='w'))
+            self.setYRange(min(self.y_axis)  , max(self.y_axis))
+
+            self.setLimits(xMin=0,xMax=self.x_axis[-1]+0.1,yMin=int(min(self.y_axis))-1, yMax=int(max(self.y_axis))+1)
         else:
             raise Exception("The new channel must be of class Channel")
             
@@ -110,7 +117,8 @@ class Viewer(pg.PlotWidget):
     def replay(self):
         start_value = 0
         end_value = self.window_size*self.x_axis[-1]
-        self.setXRange(start_value, end_value)        
+        self.setXRange(start_value, end_value)
+        self.play() 
     
     def pause(self):
         self.play_state = False
@@ -118,7 +126,8 @@ class Viewer(pg.PlotWidget):
         
     
     def rewind(self):
-        self.__linked_rewind_state = not self.__linked_rewind_state
+        self.__rewind_state = not self.__rewind_state
+        print(f'rewind: {self.__rewind_state}')
         pass    
     
     def zoom_in(self):

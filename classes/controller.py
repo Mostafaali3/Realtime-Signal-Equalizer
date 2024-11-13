@@ -33,9 +33,7 @@ class Controller():
         self.new_signal_viewer.add_signal(self.__current_signal)
         self.link_two_viewers(self.old_signal_viewer, self.new_signal_viewer)   
     
-        
-        
-        
+           
     def plot_frequency_viewer(self):
         self.frequency_viewer.current_signal = self.__current_signal
         self.frequency_viewer.plot_freq_domain()
@@ -53,6 +51,8 @@ class Controller():
 
         if(self.mode == Mode.UNIFORM.value):
             self.frequency_viewer.frequency_boundaries = [2205, 4410, 6615, 8820, 11025, 13230, 15435, 17640, 19845, 22050]
+        if(self.mode == Mode.ECG.value):
+            self.frequency_viewer.frequency_boundaries = [0, 35, 48, 52, 55, 94, 95, 155]
         if(self.mode == Mode.MUSIC.value):
             self.frequency_viewer.frequency_boundaries =  [0, 10, 250, 275, 505, 540, 780, 790, 1040, 1060, 1565, 1590, 1840, 1850, 2105, 2120, 2375, 2395, 2650, 2665, 2925, 2940, 3200, 3215, 3487, 3491, 3770, 3780, 4345, 4355, 4638, 4656, 4900, 4980 ,
                                                             1020, 1060, 1520, 1600, 2560, 2640, 3080, 3180, 3590, 3720, 4110, 4230, 4640, 4650, 5140, 5345,
