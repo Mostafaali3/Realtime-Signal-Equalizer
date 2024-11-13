@@ -145,6 +145,9 @@ class MainWindow(QMainWindow):
         self.all_freq_ranges["Artirial Fibr"] =[ (48, 52)]
         self.all_freq_ranges["Tachycardia"] =[ (55, 94)]
         self.all_freq_ranges["Ventriacal Fibr"] =[ (95, 155)]
+        
+        self.sliders_list = []
+        
         # Ecg Sliders
         self.normal_slider = self.findChild(QSlider , "verticalSlider_15")
         self.normal_slider.setMaximum(9)
@@ -152,6 +155,7 @@ class MainWindow(QMainWindow):
         self.normal_slider.setPageStep(1)
         self.normal_slider.setValue(5)
         self.normal_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Normal'))
+        self.sliders_list.append(self.normal_slider)
         
         self.art_slider = self.findChild(QSlider , "verticalSlider_16")
         self.art_slider.setMaximum(9)
@@ -159,6 +163,7 @@ class MainWindow(QMainWindow):
         self.art_slider.setPageStep(1)
         self.art_slider.setValue(5)
         self.art_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Artirial Fibr'))
+        self.sliders_list.append(self.art_slider)
         
         self.tachy_slider = self.findChild(QSlider , "verticalSlider_17")
         self.tachy_slider.setMaximum(9)
@@ -166,6 +171,7 @@ class MainWindow(QMainWindow):
         self.tachy_slider.setPageStep(1)
         self.tachy_slider.setValue(5)
         self.tachy_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Tachycardia'))
+        self.sliders_list.append(self.tachy_slider)
         
         self.Vent_slider = self.findChild(QSlider , "verticalSlider_18")
         self.Vent_slider.setMaximum(9)
@@ -173,6 +179,7 @@ class MainWindow(QMainWindow):
         self.Vent_slider.setPageStep(1)
         self.Vent_slider.setValue(5)
         self.Vent_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Ventriacal Fibr'))
+        self.sliders_list.append(self.Vent_slider)
         
         
     
@@ -183,6 +190,7 @@ class MainWindow(QMainWindow):
         self.uniform_1_slider.setPageStep(1)
         self.uniform_1_slider.setValue(5)
         self.uniform_1_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform1'))
+        self.sliders_list.append(self.uniform_1_slider)
 
         self.uniform_2_slider = self.findChild(QSlider , "verticalSlider_2")
         self.uniform_2_slider.setMaximum(9)
@@ -190,6 +198,7 @@ class MainWindow(QMainWindow):
         self.uniform_2_slider.setPageStep(1)
         self.uniform_2_slider.setValue(5)
         self.uniform_2_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform2'))
+        self.sliders_list.append(self.uniform_2_slider)
 
         self.uniform_3_slider = self.findChild(QSlider , "verticalSlider_3")
         self.uniform_3_slider.setMaximum(9)
@@ -197,6 +206,7 @@ class MainWindow(QMainWindow):
         self.uniform_3_slider.setPageStep(1)
         self.uniform_3_slider.setValue(5)
         self.uniform_3_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform3'))
+        self.sliders_list.append(self.uniform_3_slider)
 
         self.uniform_4_slider = self.findChild(QSlider , "verticalSlider_4")
         self.uniform_4_slider.setMaximum(9)
@@ -204,6 +214,7 @@ class MainWindow(QMainWindow):
         self.uniform_4_slider.setPageStep(1)
         self.uniform_4_slider.setValue(5)
         self.uniform_4_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform4'))
+        self.sliders_list.append(self.uniform_4_slider)
 
         self.uniform_5_slider = self.findChild(QSlider , "verticalSlider_5")
         self.uniform_5_slider.setMaximum(9)
@@ -211,6 +222,7 @@ class MainWindow(QMainWindow):
         self.uniform_5_slider.setPageStep(1)
         self.uniform_5_slider.setValue(5)
         self.uniform_5_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform5'))
+        self.sliders_list.append(self.uniform_5_slider)
 
         self.uniform_6_slider = self.findChild(QSlider , "verticalSlider_6")
         self.uniform_6_slider.setMaximum(9)
@@ -218,6 +230,7 @@ class MainWindow(QMainWindow):
         self.uniform_6_slider.setPageStep(1)
         self.uniform_6_slider.setValue(5)
         self.uniform_6_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform6'))
+        self.sliders_list.append(self.uniform_6_slider)
 
         self.uniform_7_slider = self.findChild(QSlider , "verticalSlider_7")
         self.uniform_7_slider.setMaximum(9)
@@ -225,6 +238,7 @@ class MainWindow(QMainWindow):
         self.uniform_7_slider.setPageStep(1)
         self.uniform_7_slider.setValue(5)
         self.uniform_7_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform7'))
+        self.sliders_list.append(self.uniform_7_slider)
 
         self.uniform_8_slider = self.findChild(QSlider , "verticalSlider_8")
         self.uniform_8_slider.setMaximum(9)
@@ -232,6 +246,7 @@ class MainWindow(QMainWindow):
         self.uniform_8_slider.setPageStep(1)
         self.uniform_8_slider.setValue(5)
         self.uniform_8_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform8'))
+        self.sliders_list.append(self.uniform_8_slider)
 
         self.uniform_9_slider = self.findChild(QSlider , "verticalSlider_9")
         self.uniform_9_slider.setMaximum(9)
@@ -333,9 +348,10 @@ class MainWindow(QMainWindow):
         # Initialize scale type in frequency viewer
         self.frequency_viewer_scale = self.findChild(QComboBox , "comboBox")
         self.frequency_viewer_scale.currentIndexChanged.connect(self.changed_frequency_viewer_scale_effect)
+        self.toggle_play_pause()
         
     def toggle_play_pause(self):
-        if self.old_signal_viewer.play_state:
+        if not self.old_signal_viewer.play_state:
             self.play_pause_button.setIcon(self.playIcon)
         else:
             self.play_pause_button.setIcon(self.pauseIcon)
