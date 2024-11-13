@@ -170,7 +170,7 @@ class MainWindow(QMainWindow):
         self.Vent_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Ventriacal Fibr'))
         
         
-        
+    
         # add uniform sliders
         self.uniform_1_slider = self.findChild(QSlider , "verticalSlider")
         self.uniform_1_slider.setMaximum(9)

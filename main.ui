@@ -2056,7 +2056,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Arterial Fiberilation</string>
+                 <string>Artirial Fibr</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -2120,7 +2120,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Venterical Fibreilation </string>
+                 <string>Ventriacal Fibr</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
