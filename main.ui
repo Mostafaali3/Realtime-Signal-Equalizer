@@ -1222,7 +1222,7 @@ border-radius: 10px
          <string notr="true">margin:0;</string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="uniformMode">
          <property name="minimumSize">
@@ -2004,32 +2004,132 @@ border-radius: 10px
         <widget class="QWidget" name="ECGMode">
          <layout class="QGridLayout" name="gridLayout_5">
           <item row="0" column="0">
-           <widget class="QSlider" name="verticalSlider_15">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_18">
+              <item>
+               <widget class="QSlider" name="verticalSlider_15">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_19">
+              <item>
+               <widget class="QLabel" name="label_22">
+                <property name="styleSheet">
+                 <string notr="true">font-size:16px;</string>
+                </property>
+                <property name="text">
+                 <string>Normal</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </item>
           <item row="0" column="1">
-           <widget class="QSlider" name="verticalSlider_16">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_20">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_51">
+              <item>
+               <widget class="QSlider" name="verticalSlider_16">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_48">
+              <item>
+               <widget class="QLabel" name="label_33">
+                <property name="styleSheet">
+                 <string notr="true">font-size:16px;</string>
+                </property>
+                <property name="text">
+                 <string>Arterial Fiberilation</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </item>
           <item row="0" column="2">
-           <widget class="QSlider" name="verticalSlider_17">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_21">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_52">
+              <item>
+               <widget class="QSlider" name="verticalSlider_17">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_39">
+              <item>
+               <widget class="QLabel" name="label_31">
+                <property name="styleSheet">
+                 <string notr="true">font-size:16px;</string>
+                </property>
+                <property name="text">
+                 <string>Tachycardia</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </item>
           <item row="0" column="3">
-           <widget class="QSlider" name="verticalSlider_18">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_22">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_53">
+              <item>
+               <widget class="QSlider" name="verticalSlider_18">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_50">
+              <item>
+               <widget class="QLabel" name="label_34">
+                <property name="styleSheet">
+                 <string notr="true">font-size:16px;</string>
+                </property>
+                <property name="text">
+                 <string>Venterical Fibreilation </string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
