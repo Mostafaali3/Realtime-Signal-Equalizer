@@ -58,7 +58,6 @@ class MainWindow(QMainWindow):
         self.new_signal_frame = self.findChild(QFrame, 'timeDomainGraph1Frame')
         self.play_pause_button = self.findChild(QPushButton, 'playPauseButton')
         self.replay_button = self.findChild(QPushButton,'replayButton')
-        self.rewind_button = self.findChild(QPushButton, 'pushButton_5')
         self.speed_up_button = self.findChild(QPushButton, 'pushButton_4')
         self.slow_down_button = self.findChild(QPushButton, 'pushButton_3')
 
@@ -66,7 +65,6 @@ class MainWindow(QMainWindow):
         self.play_pause_button.clicked.connect(self.toggle_play_pause)
         
         self.replay_button.clicked.connect(self.old_signal_viewer.replay)
-        self.rewind_button.clicked.connect(self.old_signal_viewer.rewind)
         self.speed_up_button.clicked.connect(self.old_signal_viewer.cine_speed_up)
         self.slow_down_button.clicked.connect(self.old_signal_viewer.cine_slow_down)
         
