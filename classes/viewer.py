@@ -91,7 +91,7 @@ class Viewer(pg.PlotWidget):
                 self.sampling_rate = int(1/(self.x_axis[4]-self.x_axis[3]))
                 self.y_axis = signal.reconstructed_signal[1]
             # print(f'x type: {type(self.x_axis)} x length: {len(self.x_axis)} y type:{type(self.y)}')
-            self.plot(self.x_axis, self.y_axis, pen=pg.mkPen(color='r'))
+            self.plot(self.x_axis, self.y_axis, pen=pg.mkPen(color='w'))
             self.setYRange(min(self.y_axis)  , max(self.y_axis))
 
             self.setLimits(xMin=0,xMax=self.x_axis[-1],yMin=int(min(self.y_axis))-1, yMax=int(max(self.y_axis))+1)
