@@ -17,9 +17,9 @@ class Viewer(pg.PlotWidget):
         self.label = None
         self._current_signal = None
         self.id = id
-        self.window_size = 0.1 # [0:100] a normalized value that decide what % of the signal will be viewed on the screen
+        self.window_size = 0.05 # [0:100] a normalized value that decide what % of the signal will be viewed on the screen
 
-        self.__rewind_state = False
+        self.__rewind_state = True
         self.__cine_speed = 70 # 
         self.signal_update_speed = 10
         self.signal_update_speed_iterartion = 1
@@ -63,7 +63,11 @@ class Viewer(pg.PlotWidget):
         # self.setLimits(yMin=int(min(self.y_axis[start_idx:end_idx])-1) , yMax=int(max(self.y_axis[start_idx:end_idx])+1))
         
         if end_value >= self.x_axis[-1]:
-            self.timer.stop()
+            self.replay()
+            # if self.__rewind_state:
+            #     self.replay()
+            # else: self.timer.stop()
+
         # Update the visible range on the plot
         self.setXRange(start_value, end_value)
             
@@ -95,7 +99,7 @@ class Viewer(pg.PlotWidget):
             self.plot(self.x_axis, self.y_axis, pen=pg.mkPen(color='w'))
             self.setYRange(min(self.y_axis)  , max(self.y_axis))
 
-            self.setLimits(xMin=0,xMax=self.x_axis[-1],yMin=int(min(self.y_axis))-1, yMax=int(max(self.y_axis))+1)
+            self.setLimits(xMin=0,xMax=self.x_axis[-1]+0.1,yMin=int(min(self.y_axis))-1, yMax=int(max(self.y_axis))+1)
         else:
             raise Exception("The new channel must be of class Channel")
             
@@ -113,7 +117,8 @@ class Viewer(pg.PlotWidget):
     def replay(self):
         start_value = 0
         end_value = self.window_size*self.x_axis[-1]
-        self.setXRange(start_value, end_value)        
+        self.setXRange(start_value, end_value)
+        self.play() 
     
     def pause(self):
         self.play_state = False
@@ -121,7 +126,8 @@ class Viewer(pg.PlotWidget):
         
     
     def rewind(self):
-        self.__linked_rewind_state = not self.__linked_rewind_state
+        self.__rewind_state = not self.__rewind_state
+        print(f'rewind: {self.__rewind_state}')
         pass    
     
     def zoom_in(self):
