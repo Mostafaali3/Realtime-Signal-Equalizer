@@ -28,6 +28,9 @@ class MainWindow(QMainWindow):
         self.showIcon = QIcon('icons_setup\icons\show.png')
         self.hideIcon = QIcon('icons_setup\icons\hide.png')
 
+        self.playIcon = QIcon('icons_setup\icons\play.png')
+        self.pauseIcon = QIcon('icons_setup\icons\pause.png')
+
         self.soundFrame = self.findChild(QFrame, 'soundFrame')
         self.soundFrame.hide()
 
@@ -60,6 +63,8 @@ class MainWindow(QMainWindow):
         self.slow_down_button = self.findChild(QPushButton, 'pushButton_3')
 
         self.play_pause_button.clicked.connect(self.old_signal_viewer.play)
+        self.play_pause_button.clicked.connect(self.toggle_play_pause)
+        
         self.replay_button.clicked.connect(self.old_signal_viewer.replay)
         self.rewind_button.clicked.connect(self.old_signal_viewer.rewind)
         self.speed_up_button.clicked.connect(self.old_signal_viewer.cine_speed_up)
@@ -329,6 +334,12 @@ class MainWindow(QMainWindow):
         self.frequency_viewer_scale = self.findChild(QComboBox , "comboBox")
         self.frequency_viewer_scale.currentIndexChanged.connect(self.changed_frequency_viewer_scale_effect)
         
+    def toggle_play_pause(self):
+        if self.old_signal_viewer.play_state:
+            self.play_pause_button.setIcon(self.playIcon)
+        else:
+            self.play_pause_button.setIcon(self.pauseIcon)
+
     def change_page(self):
         mode = self.selected_mode_combo_box.currentText()
         page_index = self.mode_to_page.get(mode, 0)
