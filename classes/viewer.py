@@ -193,3 +193,15 @@ class Viewer(pg.PlotWidget):
         """Reset drag flag to False after the event."""
         self.drag_active = False
 
+    def zoom_in(self):
+        self.window_size -= 0.01
+        if self.window_size > 0.01: 
+            self.window_size -= 0.01
+        else: self.window_size -= 0.001
+
+        
+    def zoom_out(self):
+        if self.window_size < 0.05:
+            self.window_size += 0.01
+        
+    
