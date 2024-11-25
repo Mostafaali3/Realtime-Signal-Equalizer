@@ -3,6 +3,7 @@
   <qresource>
 
     <file>..\icons_setup\icons\logo.png</file>
+    <file>..\icons_setup\icons\logo2.png</file>
     <file>..\icons_setup\icons\show.png</file>
     <file>..\icons_setup\icons\hide.png</file>
     <file>..\icons_setup\icons\browse.png</file>
@@ -15,6 +16,8 @@
     <file>..\icons_setup\icons\speedDown.png</file>    
     <file>..\icons_setup\icons\speed.png</file>
     <file>..\icons_setup\icons\reset.png</file>
+    <file>..\icons_setup\icons\zoomIn.png</file>
+    <file>..\icons_setup\icons\zoomOut.png</file>
 
   </qresource>
 </RCC>

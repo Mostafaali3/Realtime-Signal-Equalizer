@@ -1,7 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QPushButton, QFrame, QVBoxLayout , QSlider ,QComboBox, QStackedWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QPushButton, QFrame, QVBoxLayout , QSlider ,QComboBox, QStackedWidget, QLabel
+from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap
 from helper_function.compile_qrc import compile_qrc
 from icons_setup.compiledIcons import *
 from classes.controller import Controller
@@ -15,7 +16,7 @@ import numpy as np
 import sounddevice as sd
 from classes.modesEnum import Mode
 
-# compile_qrc()
+compile_qrc()
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -33,6 +34,12 @@ class MainWindow(QMainWindow):
 
         self.soundFrame = self.findChild(QFrame, 'soundFrame')
         self.soundFrame.hide()
+
+        self.logoLabel = self.findChild(QLabel, 'logoLabel')
+        pixmap = QPixmap('icons_setup\icons\logo.png')
+        self.logoLabel.setPixmap(pixmap)
+        self.logoLabel.setAlignment(Qt.AlignHCenter)
+        self.logoLabel.setScaledContents(True)
 
         self.spectrogramsFrame = self.findChild(QFrame, 'spectrogramsFrame')
         self.spectrogramDisplayButton = self.findChild(QPushButton, 'spectrogramDisplayButton')
