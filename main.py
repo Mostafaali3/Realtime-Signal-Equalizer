@@ -299,8 +299,6 @@ class MainWindow(QMainWindow):
         self.stacked_widget.setCurrentIndex(page_index)
         self.show_hide_sound_frame()
 
-    def changed_mode_effect(self):
-        pass
     
     def show_hide_sound_frame(self):
         if self.selected_mode_combo_box.currentText() == 'Animal Sounds' or self.selected_mode_combo_box.currentText() == 'Musical Instruments':
@@ -400,6 +398,9 @@ class MainWindow(QMainWindow):
 
     def changed_mode_effect(self):
         self.controller.mode = self.selected_mode_combo_box.currentText()
+        for slider in self.sliders_list:        
+            slider.setValue(5)
+        
     
     def changed_frequency_viewer_scale_effect(self):
         self.controller.frequency_viewer.view_scale = self.frequency_viewer_scale.currentText()
