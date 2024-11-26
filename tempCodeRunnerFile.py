@@ -1,1 +1,1 @@
-play_pause_button
+        # self.logoLabel.setScaledContents(True)

@@ -349,6 +349,45 @@ font-size:16px;</string>
           </spacer>
          </item>
          <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_54">
+           <item>
+            <widget class="QLabel" name="logoLabel">
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>150</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>150</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">border:none</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
           <widget class="QFrame" name="soundFrame">
            <property name="styleSheet">
             <string notr="true">border: none;
@@ -1030,6 +1069,70 @@ QToolTip {
           <property name="icon">
            <iconset resource="icons_setup/icons.qrc">
             <normaloff>:/icons_setup/icons/speed.png</normaloff>:/icons_setup/icons/speed.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="zoomOutButton">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Zoom Out</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons_setup/icons.qrc">
+            <normaloff>:/icons_setup/icons/zoomOut.png</normaloff>:/icons_setup/icons/zoomOut.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="zoomInButton">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Zoom In</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons_setup/icons.qrc">
+            <normaloff>:/icons_setup/icons/zoomIn.png</normaloff>:/icons_setup/icons/zoomIn.png</iconset>
           </property>
           <property name="iconSize">
            <size>
