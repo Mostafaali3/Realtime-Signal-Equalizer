@@ -16,7 +16,7 @@ import numpy as np
 import sounddevice as sd
 from classes.modesEnum import Mode
 
-compile_qrc()
+# compile_qrc()
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -67,7 +67,13 @@ class MainWindow(QMainWindow):
         self.replay_button = self.findChild(QPushButton,'replayButton')
         self.speed_up_button = self.findChild(QPushButton, 'pushButton_4')
         self.slow_down_button = self.findChild(QPushButton, 'pushButton_3')
-
+        
+        self.zoomin_button = self.findChildren(QPushButton, 'zoomInButton')
+        self.zoomin_button[0].clicked.connect(self.old_signal_viewer.zoom_in)
+        
+        self.zoomout_button = self.findChildren(QPushButton, 'zoomOutButton')
+        self.zoomout_button[0].clicked.connect(self.old_signal_viewer.zoom_out)
+        
         self.play_pause_button.clicked.connect(self.old_signal_viewer.play)
         self.play_pause_button.clicked.connect(self.toggle_play_pause)
         
@@ -126,7 +132,7 @@ class MainWindow(QMainWindow):
         
         #Initializing Animals Mode Sliders adn dictionary
         
-        self.slider_values_map = [0.125/4,0.125/2,0.125, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0]
+        self.slider_values_map = [0, 0.125/4,0.125/2,0.125, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0]
         self.all_freq_ranges = dict()
         self.all_freq_ranges['dolphin'] = [(10,300) , (1000,1700) , (1800,3400)]
         self.all_freq_ranges['eagle'] = [(2400,4500)] 
@@ -146,10 +152,10 @@ class MainWindow(QMainWindow):
             start += 2205
         # add ECG abnormalities:
                               
-        self.all_freq_ranges["Normal"] =[ (0,35)]
-        self.all_freq_ranges["Artirial Fibr"] =[ (48, 52)]
-        self.all_freq_ranges["Tachycardia"] =[ (55, 94)]
-        self.all_freq_ranges["Ventriacal Fibr"] =[ (95, 155)]
+        self.all_freq_ranges["Normal"] =[  (0,35)]
+        self.all_freq_ranges["Artirial Fibr"] =[ (0, 4)] #sinus
+        self.all_freq_ranges["Tachycardia"] =[ (0, 17.5)] #RBBB
+        self.all_freq_ranges["Ventriacal Fibr"] =[ (17, 1000)] #Vent
         
         self.sliders_list = []
         
@@ -224,8 +230,8 @@ class MainWindow(QMainWindow):
         self.sliders_list.append(self.xilaphone_sound_level_slider)
         
         for slider in self.sliders_list:
-            slider.setMaximum(9)
-            slider.setMinimum(1)
+            slider.setMaximum(10)
+            slider.setMinimum(0)
             slider.setPageStep(1)        
             slider.setValue(5)
         self.normal_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Normal'))
@@ -321,8 +327,8 @@ class MainWindow(QMainWindow):
         elif file_path.endswith('.dat'):
             data = pd.read_csv(file_path, delimiter='\t')
             columns = data.columns
-            data_x = np.array(data[columns[0]].tolist())
-            data_y = np.array(data[columns[1]].tolist())
+            data_x = np.array(data[columns[1]].tolist())
+            data_y = np.array(data[columns[2]].tolist())
             sample_rate = 1/(data_x[1] - data_x[0])
             new_signal = CustomSignal(data_y= data_y, data_x=data_x, linear_frequency=[[], []]) 
             new_signal.signal_sampling_rate = sample_rate
