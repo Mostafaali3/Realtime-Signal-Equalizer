@@ -412,9 +412,16 @@ class MainWindow(QMainWindow):
         self.controller.frequency_viewer.view_scale = self.frequency_viewer_scale.currentText()
         self.controller.set_current_signal(self.current_signal)
 
-    
+    def initialize_signal(self):
+        sample_rate, data_y = wavfile.read("data/uniform/Synthetic_2.wav")
+        data_x = np.linspace(0, len(data_y)/sample_rate, len(data_y))
+        new_signal = CustomSignal(data_x, data_y , linear_frequency=[[], []])
+        new_signal.signal_sampling_rate = sample_rate
+        self.current_signal = new_signal
+        self.controller.set_current_signal(new_signal)
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
+    window.initialize_signal()
     sys.exit(app.exec_())

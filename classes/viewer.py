@@ -100,7 +100,7 @@ class Viewer(pg.PlotWidget):
             self.setYRange(min(self.y_axis)  , max(self.y_axis))
 
             self.setLimits(xMin=0,xMax=self.x_axis[-1]+0.1,yMin=int(min(self.y_axis))-1, yMax=int(max(self.y_axis))+1)
-            # self.play()
+
         else:
             raise Exception("The new channel must be of class Channel")
             
