@@ -100,6 +100,7 @@ class Viewer(pg.PlotWidget):
             self.setYRange(min(self.y_axis)  , max(self.y_axis))
 
             self.setLimits(xMin=0,xMax=self.x_axis[-1]+0.1,yMin=int(min(self.y_axis))-1, yMax=int(max(self.y_axis))+1)
+            # self.play()
         else:
             raise Exception("The new channel must be of class Channel")
             
@@ -194,14 +195,21 @@ class Viewer(pg.PlotWidget):
         self.drag_active = False
 
     def zoom_in(self):
-        self.window_size -= 0.01
-        if self.window_size > 0.01: 
+        
+        if self.window_size > 0.011: 
             self.window_size -= 0.01
-        else: self.window_size -= 0.001
+        elif self.window_size>0 and self.window_size<0.11: self.window_size -= 0.001
+        
+        self.update_signal()
+        print(self.window_size)
 
         
     def zoom_out(self):
+        
         if self.window_size < 0.05:
             self.window_size += 0.01
-        
+            
+        self.update_signal()
+        print(self.window_size)
+
     
