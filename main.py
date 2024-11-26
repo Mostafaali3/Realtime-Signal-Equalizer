@@ -151,11 +151,17 @@ class MainWindow(QMainWindow):
             self.all_freq_ranges['uniform' + str(i+1)] = [(start, start + 2205)]
             start += 2205
         # add ECG abnormalities:
-                              
+          # Ranges Zezo                    
+        # self.all_freq_ranges["Normal"] =[  (0,35)]
+        # self.all_freq_ranges["Artirial Fibr"] =[ (0, 4)] #sinus
+        # self.all_freq_ranges["Tachycardia"] =[ (0, 17.5)] #RBBB
+        # self.all_freq_ranges["Ventriacal Fibr"] =[ (17, 1000)] #Vent
+        
+         #ranges yas                             
         self.all_freq_ranges["Normal"] =[  (0,35)]
-        self.all_freq_ranges["Artirial Fibr"] =[ (0, 4)] #sinus
-        self.all_freq_ranges["Tachycardia"] =[ (0, 17.5)] #RBBB
-        self.all_freq_ranges["Ventriacal Fibr"] =[ (17, 1000)] #Vent
+        self.all_freq_ranges["Artirial Fibr"] =[ (48, 52)] #sinus
+        self.all_freq_ranges["Tachycardia"] =[ (55, 94)] #RBBB
+        self.all_freq_ranges["Ventriacal Fibr"] =[ (95, 155)] #Vent
         
         self.sliders_list = []
         
