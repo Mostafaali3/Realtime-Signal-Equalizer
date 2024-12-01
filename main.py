@@ -156,7 +156,7 @@ class MainWindow(QMainWindow):
         self.all_freq_ranges["Normal"] =[ (6.2,30.8) ]
         self.all_freq_ranges["Atrial Couplets"] =[(1.2,5.8),(6.2,12.8),(19.2,29.8),(31,200)] # ATRIAL COUPLETS
         self.all_freq_ranges["Bidirectional Tachycardia"] =[(0,6.8),(7.2,9.8), (35, 200)] #Bidirectional Tachycardia
-        self.all_freq_ranges["Atrial Bigeminy"] =[(0, 5.8), (35,200)] #V Flutter or atrial bigeminy
+        self.all_freq_ranges["Atrial Bigeminy"] =[(0, 6.8), (30,200)] #V Flutter or atrial bigeminy
 
         
         self.sliders_list = []
