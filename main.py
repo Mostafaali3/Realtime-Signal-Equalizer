@@ -150,18 +150,14 @@ class MainWindow(QMainWindow):
         for i in range(10):
             self.all_freq_ranges['uniform' + str(i+1)] = [(start, start + 2205)]
             start += 2205
-        # add ECG abnormalities:
-          # Ranges Zezo                    
-        # self.all_freq_ranges["Normal"] =[  (0,35)]
-        # self.all_freq_ranges["Artirial Fibr"] =[ (0, 4)] #sinus
-        # self.all_freq_ranges["Tachycardia"] =[ (0, 17.5)] #RBBB
-        # self.all_freq_ranges["Ventriacal Fibr"] =[ (17, 1000)] #Vent
         
-         #ranges yas                             
-        self.all_freq_ranges["Normal"] =[  (0,35)]
-        self.all_freq_ranges["Artirial Fibr"] =[ (48, 52)] #sinus
-        self.all_freq_ranges["Tachycardia"] =[ (55, 94)] #RBBB
-        self.all_freq_ranges["Ventriacal Fibr"] =[ (95, 155)] #Vent
+        # full ranges: ,(3.2,4), (4.4,5), (5.6,6),(6.11, 6.4),(6.61,7.2),(7.8,8.6),(9.01,9.8), (10.2, 11),(11.2,11.8)]
+        
+        self.all_freq_ranges["Normal"] =[ (6.2,30.8) ]
+        self.all_freq_ranges["Atrial Couplets"] =[(1.2,5.8),(6.2,12.8),(19.2,29.8),(31,200)] # ATRIAL COUPLETS
+        self.all_freq_ranges["Bidirectional Tachycardia"] =[(0,6.8),(7.2,9.8), (35, 200)] #Bidirectional Tachycardia
+        self.all_freq_ranges["Atrial Bigeminy"] =[(0, 5.8), (35,200)] #V Flutter or atrial bigeminy
+
         
         self.sliders_list = []
         
@@ -240,10 +236,11 @@ class MainWindow(QMainWindow):
             slider.setMinimum(0)
             slider.setPageStep(1)        
             slider.setValue(5)
+        
         self.normal_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Normal'))
-        self.art_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Artirial Fibr'))
-        self.tachy_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Tachycardia'))
-        self.Vent_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Ventriacal Fibr'))
+        self.art_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Atrial Couplets'))
+        self.tachy_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Bidirectional Tachycardia'))
+        self.Vent_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Atrial Bigeminy'))
         self.uniform_1_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform1'))
         self.uniform_2_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform2'))
         self.uniform_3_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform3'))
@@ -262,7 +259,6 @@ class MainWindow(QMainWindow):
         self.violin_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'violin'))
         self.triangle_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'triangle'))
         self.xilaphone_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'xilaphone'))
-        
         
         # Initializing play button for sound before and after modification
         self.after_modifiy_play_sound_button = self.findChild(QPushButton , "soundAfterButton")
@@ -419,6 +415,7 @@ class MainWindow(QMainWindow):
         new_signal.signal_sampling_rate = sample_rate
         self.current_signal = new_signal
         self.controller.set_current_signal(new_signal)
+        
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()
