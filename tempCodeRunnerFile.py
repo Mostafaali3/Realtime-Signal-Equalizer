@@ -1,1 +1,1 @@
-        # self.logoLabel.setScaledContents(True)
+a

@@ -643,7 +643,7 @@ margin: 10 0;</string>
                 <string notr="true">font-size:16px;</string>
                </property>
                <property name="text">
-                <string>Signal Before</string>
+                <string>Pre-Signal</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -691,7 +691,7 @@ border-radius: 10px
                 <string notr="true">font-size:16px;</string>
                </property>
                <property name="text">
-                <string>Signal After</string>
+                <string>Post-Signal</string>
                </property>
               </widget>
              </item>
@@ -813,7 +813,7 @@ margin: 10 0;</string>
                   <string notr="true">font-size:16px;</string>
                  </property>
                  <property name="text">
-                  <string>Signal Before</string>
+                  <string>Pre-Signal</string>
                  </property>
                 </widget>
                </item>
@@ -870,7 +870,7 @@ border-radius: 10px
                   <string notr="true">font-size:16px;</string>
                  </property>
                  <property name="text">
-                  <string>Signal After</string>
+                  <string>Post-Signal</string>
                  </property>
                 </widget>
                </item>
@@ -1293,7 +1293,7 @@ border-radius: 10px
          <string notr="true">margin:0;</string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="uniformMode">
          <property name="minimumSize">
@@ -2127,7 +2127,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Artirial Fibr</string>
+                 <string>Artirial Couplets</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -2159,7 +2159,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Tachycardia</string>
+                 <string>Bidirectional Tachycardia</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -2191,7 +2191,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Ventriacal Fibr</string>
+                 <string>Atrial Bigeminy</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
