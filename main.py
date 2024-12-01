@@ -324,6 +324,8 @@ class MainWindow(QMainWindow):
             new_signal.signal_sampling_rate = sample_rate
             self.current_signal = new_signal
             self.controller.set_current_signal(new_signal)
+            self.old_signal_viewer.play()
+            self.toggle_play_pause()
             print(sample_rate)
         
         elif file_path.endswith('.dat'):
@@ -336,6 +338,8 @@ class MainWindow(QMainWindow):
             new_signal.signal_sampling_rate = sample_rate
             self.current_signal = new_signal
             self.controller.set_current_signal(new_signal)
+            self.old_signal_viewer.play()
+            self.toggle_play_pause()
             print(sample_rate)   
         
         elif file_path.endswith('.wav'):
@@ -345,6 +349,8 @@ class MainWindow(QMainWindow):
             new_signal.signal_sampling_rate = sample_rate
             self.current_signal = new_signal
             self.controller.set_current_signal(new_signal)
+            self.old_signal_viewer.play()
+            self.toggle_play_pause()
             print(sample_rate)
         elif file_path.endswith('.mp3'):
             pass
@@ -415,6 +421,8 @@ class MainWindow(QMainWindow):
         new_signal.signal_sampling_rate = sample_rate
         self.current_signal = new_signal
         self.controller.set_current_signal(new_signal)
+        self.old_signal_viewer.play()
+        self.toggle_play_pause()
         
 if __name__ == '__main__':
     app = QApplication(sys.argv)

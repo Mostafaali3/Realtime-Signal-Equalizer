@@ -28,7 +28,7 @@ class FrequencyViewer(pg.PlotWidget):
             self.invertY(True)
             self.plot(self.current_signal.new_linear_frequency[0] , signal_rfft_result_magnitudes_db_scale, pen=pg.mkPen(color = 'w' , width=3))
             for x_value in self.frequency_boundaries:
-                self.addItem(pg.PlotDataItem([x_value, x_value], [0, 300], pen=pg.mkPen(color='g', width=2)))
+                self.addItem(pg.PlotDataItem([x_value, x_value], [-100, 170], pen=pg.mkPen(color='g', width=2)))
             # self.setYRange(min(self.current_signal.new_linear_frequency[1]),max(self.current_signal.new_linear_frequency[1]))
             
     @property
