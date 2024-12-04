@@ -264,6 +264,18 @@ class MainWindow(QMainWindow):
         self.xilaphone_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'xilaphone'))
         
         
+        # Initializing the frequency ranges labels
+        # self.freq_range_1 = self.findChild(QLabel , "label_21")
+        # self.freq_range_2 = self.findChild(QLabel , "label_24")
+        # self.freq_range_3 = self.findChild(QLabel , "label_23")
+        # self.freq_range_4 = self.findChild(QLabel , "label_25")
+        # self.freq_range_5 = self.findChild(QLabel , "label_26")
+        # self.freq_range_6 = self.findChild(QLabel , "label_27")
+        # self.freq_range_7 = self.findChild(QLabel , "label_28")
+        # self.freq_range_8 = self.findChild(QLabel , "label_29")
+        # self.freq_range_9 = self.findChild(QLabel , "label_30")
+        # self.freq_range_10 = self.findChild(QLabel , "label_32")
+        
         # Initializing play button for sound before and after modification
         self.after_modifiy_play_sound_button = self.findChild(QPushButton , "soundAfterButton")
         self.after_modifiy_play_sound_button.pressed.connect(self.play_sound_after_modify)
@@ -416,6 +428,28 @@ class MainWindow(QMainWindow):
     
     def changed_frequency_viewer_scale_effect(self):
         self.controller.frequency_viewer.view_scale = self.frequency_viewer_scale.currentText()
+        # if(self.frequency_viewer_scale.currentText() == "Audiogram"):
+        #     self.freq_range_1.setText(f'{np.log10(0.0000001):.2f} - {np.log10(2205):.2f}')
+        #     self.freq_range_2.setText(f'{np.log10(2205):.2f} - {np.log10(4410):.2f}')
+        #     self.freq_range_3.setText(f'{np.log10(4410):.2f} - {np.log10(6615):.2f}')
+        #     self.freq_range_4.setText(f'{np.log10(6615):.2f} - {np.log10(8820):.2f}')
+        #     self.freq_range_5.setText(f'{np.log10(8820):.2f} - {np.log10(11025):.2f}')
+        #     self.freq_range_6.setText(f'{np.log10(11025):.2f} - {np.log10(13230):.2f}')
+        #     self.freq_range_7.setText(f'{np.log10(13230):.2f} - {np.log10(15435):.2f}')
+        #     self.freq_range_8.setText(f'{np.log10(15435):.2f} - {np.log10(17640):.2f}')
+        #     self.freq_range_9.setText(f'{np.log10(17640):.2f} - {np.log10(19845):.2f}')
+        #     self.freq_range_10.setText(f'{np.log10(19845):.2f} - {np.log10(22050):.2f}')
+        # else:
+        #     self.freq_range_1.setText('0 - 2205')
+        #     self.freq_range_2.setText('2205 - 4410')
+        #     self.freq_range_3.setText('4410 - 6615')
+        #     self.freq_range_4.setText('6615 - 8820')
+        #     self.freq_range_5.setText('8820 - 11025')
+        #     self.freq_range_6.setText('11025 - 13230')
+        #     self.freq_range_7.setText('13230 - 15435')
+        #     self.freq_range_8.setText('15435 - 17640')
+        #     self.freq_range_9.setText('17640 - 19845')
+        #     self.freq_range_10.setText('19845 - 22050')
         self.controller.set_current_signal(self.current_signal)
 
     def initialize_signal(self):
