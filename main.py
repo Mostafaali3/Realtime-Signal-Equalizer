@@ -15,6 +15,8 @@ from scipy.io import wavfile
 import numpy as np
 import sounddevice as sd
 from classes.modesEnum import Mode
+from pyqtgraph import LinearRegionItem
+
 
 # compile_qrc()
 
@@ -207,8 +209,10 @@ class MainWindow(QMainWindow):
         self.uniform_10_slider = self.findChild(QSlider , "verticalSlider_10")
         self.sliders_list.append(self.uniform_10_slider)
 
-        self.dolphin_sound_level_slider = self.findChild(QSlider , "verticalSlider_19")
-        self.sliders_list.append(self.dolphin_sound_level_slider)
+        self.wiener_noise_level_slider = self.findChild(QSlider , "verticalSlider_19")
+        self.wiener_noise_level_slider.setMinimum(1)
+        self.wiener_noise_level_slider.setMaximum(5)
+        self.wiener_noise_level_slider.setPageStep(1)
         
         self.eagle_sound_level_slider = self.findChild(QSlider , "verticalSlider_20")
         self.sliders_list.append(self.eagle_sound_level_slider)
@@ -251,7 +255,6 @@ class MainWindow(QMainWindow):
         self.uniform_8_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform8'))
         self.uniform_9_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform9'))
         self.uniform_10_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform10'))
-        self.dolphin_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'dolphin'))
         self.eagle_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'eagle'))
         self.owl_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'owl'))
         self.mouse_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'mouse'))
@@ -260,6 +263,9 @@ class MainWindow(QMainWindow):
         self.triangle_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'triangle'))
         self.xilaphone_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'xilaphone'))
         
+        self.wiener_noise_level_slider.valueChanged.connect(lambda slider_value: self.wiener_noise_slider_effect(slider_value))
+        self.linear_region = False
+        self.linear_region_boundaries = [6,11]
         
         # Initializing the frequency ranges labels
         # self.freq_range_1 = self.findChild(QLabel , "label_21")
@@ -380,10 +386,18 @@ class MainWindow(QMainWindow):
             self.spectrogramDisplayButton.setIcon(self.hideIcon)
         self.isSpectrogramDisplayed = not self.isSpectrogramDisplayed
         
+    def wiener_noise_slider_effect(self, slider_value):
+        slider_values_mapping = [0,0.0001,0.01,0.25,0.5,1]
+        self.linear_region_boundaries = self.linear_region.getRegion()
+        self.controller.equalizer.wiener_filter(self.linear_region_boundaries,slider_values_mapping[slider_value])
+        self.controller.set_current_signal(self.current_signal)
+        self.linear_region = False
+        self.check_linear_region()
+        
     def sound_level_slider_effect(self, slider_value, name):
         self.controller.equalizer.equalize( self.all_freq_ranges[name], factor = self.slider_values_map[slider_value])
         self.controller.set_current_signal(self.current_signal)
-    
+
     # def animal_sound_level_slider_effect(self, slider_value, animal_name):
     #     self.controller.equalizer.equalize( self.animals_freq_ranges[animal_name], factor = self.slider_values_map[slider_value])
     #     self.controller.set_current_signal(self.current_signal)
@@ -412,7 +426,8 @@ class MainWindow(QMainWindow):
         # sd.wait()
     
     def play_sound_after_modify(self):
-        self.controller.equalizer.inverse()
+        if(self.selected_mode_combo_box.currentText() != "Animal Sounds"):
+            self.controller.equalizer.inverse()
         normalized_result_sound = self.current_signal.reconstructed_signal[1] / np.max(np.abs(self.current_signal.reconstructed_signal[1]))
         sd.play(normalized_result_sound , self.current_signal.signal_sampling_rate)
         # sd.wait()
@@ -421,8 +436,18 @@ class MainWindow(QMainWindow):
         self.controller.mode = self.selected_mode_combo_box.currentText()
         for slider in self.sliders_list:        
             slider.setValue(5)
-        
-    
+        self.check_linear_region()
+            
+    def check_linear_region(self):
+        if self.controller.mode == "Animal Sounds":
+            if not self.linear_region:
+                self.linear_region = LinearRegionItem([self.linear_region_boundaries[0] , self.linear_region_boundaries[1]], movable=True) 
+                self.old_signal_viewer.addItem(self.linear_region)
+        else:
+            if self.linear_region:
+                self.old_signal_viewer.removeItem(self.linear_region)
+                self.linear_region = None
+                
     def changed_frequency_viewer_scale_effect(self):
         self.controller.frequency_viewer.view_scale = self.frequency_viewer_scale.currentText()
         # if(self.frequency_viewer_scale.currentText() == "Audiogram"):

@@ -68,7 +68,8 @@ class Controller():
         self.plot_frequency_boundries()
         if len(self.__current_signal.original_linear_frequency[0]) == 0:
             self.equalizer.transform()
-        self.equalizer.inverse()
+        if(self.mode != Mode.ANIMALS):
+            self.equalizer.inverse()
         self.plot_frequency_viewer()
         self.plot_spectrogram()
         self.plot_time_domain_signals()
