@@ -214,15 +214,6 @@ class MainWindow(QMainWindow):
         self.wiener_noise_level_slider.setMaximum(5)
         self.wiener_noise_level_slider.setPageStep(1)
         
-        self.eagle_sound_level_slider = self.findChild(QSlider , "verticalSlider_20")
-        self.sliders_list.append(self.eagle_sound_level_slider)
-        
-        self.owl_sound_level_slider = self.findChild(QSlider , "verticalSlider_21")
-        self.sliders_list.append(self.owl_sound_level_slider)
-        
-        self.mouse_sound_level_slider = self.findChild(QSlider , "verticalSlider_22")
-        self.sliders_list.append(self.mouse_sound_level_slider)
-        
         self.piano_sound_level_slider = self.findChild(QSlider , "verticalSlider_11")
         self.sliders_list.append(self.piano_sound_level_slider)
         
@@ -255,9 +246,6 @@ class MainWindow(QMainWindow):
         self.uniform_8_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform8'))
         self.uniform_9_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform9'))
         self.uniform_10_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform10'))
-        self.eagle_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'eagle'))
-        self.owl_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'owl'))
-        self.mouse_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'mouse'))
         self.piano_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'piano'))
         self.violin_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'violin'))
         self.triangle_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'triangle'))
@@ -322,7 +310,7 @@ class MainWindow(QMainWindow):
 
     
     def show_hide_sound_frame(self):
-        if self.selected_mode_combo_box.currentText() == 'Animal Sounds' or self.selected_mode_combo_box.currentText() == 'Musical Instruments':
+        if self.selected_mode_combo_box.currentText() == 'Animal Sounds' or self.selected_mode_combo_box.currentText() == 'Musical Instruments' or self.selected_mode_combo_box.currentText() == 'ECG Abnormalities':
             self.soundFrame.show()
         else:
             self.soundFrame.hide()
