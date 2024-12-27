@@ -1293,7 +1293,7 @@ border-radius: 10px
          <string notr="true">margin:0;</string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="uniformMode">
          <property name="minimumSize">
@@ -1850,7 +1850,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Music 01</string>
+                 <string>Flute</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1891,7 +1891,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Music 02</string>
+                 <string>Violin</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -2003,7 +2003,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Animal 01</string>
+                 <string>Crow</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -2035,7 +2035,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Music 01</string>
+                 <string>Flute</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -2067,7 +2067,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Animal 02</string>
+                 <string>Raccoon</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -2099,7 +2099,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Music 02</string>
+                 <string>Piano</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -2131,7 +2131,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Animal 03</string>
+                 <string>Peacock</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
