@@ -245,17 +245,17 @@ QComboBox QAbstractItemView {
              </item>
              <item>
               <property name="text">
-               <string>Musical Instruments</string>
+               <string>Vowels</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>Animal Sounds</string>
+               <string>Wiener Filter</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>ECG Abnormalities</string>
+               <string>Music and Animals</string>
               </property>
              </item>
             </widget>

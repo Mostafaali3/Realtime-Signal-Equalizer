@@ -309,9 +309,9 @@ class MainWindow(QMainWindow):
 
         self.mode_to_page = {
             "Uniform Range": 0,
-            "Musical Instruments": 1,
-            "Animal Sounds": 2,
-            "ECG Abnormalities": 3
+            "Vowels": 1,
+            "Wiener Filter": 2,
+            "Music and Animals": 3
         }
 
         self.selected_mode_combo_box.currentIndexChanged.connect(self.change_page)
@@ -336,7 +336,7 @@ class MainWindow(QMainWindow):
 
     
     def show_hide_sound_frame(self):
-        if self.selected_mode_combo_box.currentText() == 'Animal Sounds' or self.selected_mode_combo_box.currentText() == 'Musical Instruments' or self.selected_mode_combo_box.currentText() == 'ECG Abnormalities':
+        if self.selected_mode_combo_box.currentText() == 'Wiener Filter' or self.selected_mode_combo_box.currentText() == 'Vowels' or self.selected_mode_combo_box.currentText() == 'Music and Animals':
             self.soundFrame.show()
         else:
             self.soundFrame.hide()
@@ -440,7 +440,7 @@ class MainWindow(QMainWindow):
         # sd.wait()
     
     def play_sound_after_modify(self):
-        if(self.selected_mode_combo_box.currentText() != "Animal Sounds"):
+        if(self.selected_mode_combo_box.currentText() != "Wiener Filter"):
             self.controller.equalizer.inverse()
         normalized_result_sound = self.current_signal.reconstructed_signal[1] / np.max(np.abs(self.current_signal.reconstructed_signal[1]))
         sd.play(normalized_result_sound , self.current_signal.signal_sampling_rate)
@@ -453,7 +453,7 @@ class MainWindow(QMainWindow):
         self.check_linear_region()
             
     def check_linear_region(self):
-        if self.controller.mode == "Animal Sounds":
+        if self.controller.mode == "Wiener Filter":
             if not self.linear_region:
                 self.linear_region = LinearRegionItem([self.linear_region_boundaries[0] , self.linear_region_boundaries[1]], movable=True) 
                 self.old_signal_viewer.addItem(self.linear_region)
