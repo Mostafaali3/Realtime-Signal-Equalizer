@@ -141,12 +141,21 @@ class MainWindow(QMainWindow):
         self.all_freq_ranges['owl'] = [(300,600)] 
         self.all_freq_ranges['mouse'] = [(6000,16000)]
         
-        # self.music_freq_ranges = dict()
-        self.all_freq_ranges['piano'] = [(0,10), (250, 275), (505, 540), (780, 790),(1040, 1060), (1565, 1590), (1840, 1850),(2105, 2120), (2375, 2395), (2650, 2665), (2925, 2940), (3200, 3215), (3487,3491), (3770, 3780), (4345, 4355), (4638, 4656), (4900, 4980)]
-        self.all_freq_ranges['violin'] = [(1020, 1060), (1520, 1600), (2560, 2640), (3080, 3180), (3590, 3720),(4110,4230),(4640,4650), (5140,5345)]
-        self.all_freq_ranges['triangle'] = [(4600, 5000), (5170, 5250), (5350, 5550), (5600,22000)]
-        self.all_freq_ranges['xilaphone'] = [(300,1000)]
-
+          
+        # self.all_freq_ranges['dolphin'] = [(9000,10000) , (11500,15500)]  #cricket
+        # self.all_freq_ranges['eagle'] = [(50,1300), (1600,2000)] #crow
+        # self.all_freq_ranges['owl'] = [(560,760),(2900,3500),(3800,6000)] #peacock
+        # self.all_freq_ranges['mouse'] = [ (1320,1410), (1450,1690), (2200,2400), (2500,2600), (2700,2820) ,(2850,3000) ] #Raccon
+        # animals piano ranges : (300, 600), (730,1100),  (1300, 1680),(1920, 2250)
+        # animals flute ranges :  (600,700),(1100,1500),(1720, 2250),(3000, 3450),(3900,4150),(4500, 4700)
+        
+        # self.all_freq_ranges['piano'] = [(435,625), (850, 1105), (1380, 1700), (1995, 2120),(2450, 2720), (2950, 3200), (3500, 5000)] #weee /i:/ - "ee" 
+        # self.all_freq_ranges['violin'] = [(200, 290), (450, 570), (980, 1070 ), (1490,1600), (1950, 2160), (3000, 3200),  (3600, 3700), (4070, 4220), (4600, 4850)]  #اييييي 
+        # self.all_freq_ranges['triangle'] = [(200, 300), (500, 600), (1020, 1180), (1560, 1750), (2120, 2300), (2600, 2820), (3250, 3390),  (3700, 3950),(4220, 4500) ,(4850, 5090)] #اعععععع /ɑ:/ - "ah" 
+        # self.all_freq_ranges['xilaphone'] = [(300,400), (600,750), (1300,1500), (2000,2250), (2700,3100), (3500,3800)] #eeuu number 2 /ɔ:/ - "aw" 
+        # vowels violin ranges:  (350, 650), (860, 960), (1050,1200),(1300, 1700), (2000, 2400), (2700, 2900), (3200, 3400), (3600,3800),(4200,4600),(4850, 5300)
+        # vowels flute ranges: (650, 1200), (2000, 2500) ,(3050, 3550)
+        
         # add uniform frequency ranges
         start = 0
         for i in range(10):
@@ -155,26 +164,31 @@ class MainWindow(QMainWindow):
         
         # full ranges: ,(3.2,4), (4.4,5), (5.6,6),(6.11, 6.4),(6.61,7.2),(7.8,8.6),(9.01,9.8), (10.2, 11),(11.2,11.8)]
         
-        self.all_freq_ranges["Normal"] =[ (6.2,30.8) ]
-        self.all_freq_ranges["Atrial Couplets"] =[(1.2,5.8),(6.2,12.8),(19.2,29.8),(31,200)] # ATRIAL COUPLETS
-        self.all_freq_ranges["Bidirectional Tachycardia"] =[(0,6.8),(7.2,9.8), (35, 200)] #Bidirectional Tachycardia
-        self.all_freq_ranges["Atrial Bigeminy"] =[(0, 6.8), (30,200)] #V Flutter or atrial bigeminy
+        self.all_freq_ranges["Crow"] =[(50,1300), (1600,2000)]
+        self.all_freq_ranges["Raccon"] =[ (1320,1410), (1450,1690), (2200,2400), (2500,2600), (2700,2820) ,(2850,3000) ]
+        self.all_freq_ranges["Peacock"] =[(560,760),(2900,3500),(3800,6000)]  #Peacock
+        self.all_freq_ranges["animal_flute"] =[(600,700),(1100,1500),(1720, 2250),(3000, 3450),(3900,4150),(4500, 4700)]
+        self.all_freq_ranges["animal_piano"] =[(300, 600), (730,1100),  (1300, 1680),(1920, 2250)]
 
         
         self.sliders_list = []
         
-        # Ecg Sliders
-        self.normal_slider = self.findChild(QSlider , "verticalSlider_15")
-        self.sliders_list.append(self.normal_slider)
+        # Animals
+        self.crow_slider = self.findChild(QSlider , "verticalSlider_15") #animal 1 crow
+        self.sliders_list.append(self.crow_slider)
         
-        self.art_slider = self.findChild(QSlider , "verticalSlider_16")
-        self.sliders_list.append(self.art_slider)
+        self.raccon_slider = self.findChild(QSlider , "verticalSlider_23") #animal 2 Raccon
+        self.sliders_list.append(self.raccon_slider)
         
-        self.tachy_slider = self.findChild(QSlider , "verticalSlider_17")
-        self.sliders_list.append(self.tachy_slider)
+        self.peacock_slider = self.findChild(QSlider , "verticalSlider_16") #animal 3 peacock
+        self.sliders_list.append(self.peacock_slider)
         
-        self.Vent_slider = self.findChild(QSlider , "verticalSlider_18")
-        self.sliders_list.append(self.Vent_slider)
+        self.animal_flute_slider = self.findChild(QSlider , "verticalSlider_17") # animal mode music 1 flute
+        self.sliders_list.append(self.animal_flute_slider)
+        
+        self.animal_piano_slider = self.findChild(QSlider , "verticalSlider_18") # animal mode music 2 piano
+        self.sliders_list.append(self.animal_piano_slider)
+
         
         
     
@@ -232,10 +246,13 @@ class MainWindow(QMainWindow):
             slider.setPageStep(1)        
             slider.setValue(5)
         
-        self.normal_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Normal'))
-        self.art_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Atrial Couplets'))
-        self.tachy_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Bidirectional Tachycardia'))
-        self.Vent_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Atrial Bigeminy'))
+        self.crow_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Crow'))
+        self.raccon_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Raccon'))
+        self.peacock_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'Peacock'))
+        self.animal_flute_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'animal_flute'))
+        self.animal_piano_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'animal_piano'))
+
+        
         self.uniform_1_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform1'))
         self.uniform_2_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform2'))
         self.uniform_3_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform3'))
