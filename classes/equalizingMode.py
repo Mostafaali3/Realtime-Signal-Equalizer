@@ -97,30 +97,21 @@ class EqualizingMode():
     def wiener_filter(self , noise_boundaries , noise_reduction_factor):
         """
         Apply Wiener filtering to remove uniform background noise from speech audio.
-        
-        Parameters:
-            audio_path (str): Path to the WAV file
-            noise_estimate_duration (float): Duration in seconds to use for noise estimation
-                                            (typically from the beginning of the file)
         """
         audio_data = self.current_signal.original_signal[1].astype(np.float32)
 
-        # Estimate noise spectrum from the first segment
         noise_start = int(noise_boundaries[0] * self.current_signal.signal_sampling_rate)
         noise_end = int(noise_boundaries[1]* self.current_signal.signal_sampling_rate)
         noise_segment = audio_data[noise_start:noise_end]
         
-        # Compute noise power spectrum
         noise_fft = np.fft.fft(noise_segment)
         noise_power = np.abs(noise_fft) ** 2
         noise_power = np.mean(noise_power)
         
-        # Process the signal in overlapping frames
         frame_length = 2048
         hop_length = frame_length // 2
         window = np.hanning(frame_length)
         
-        # Prepare output array
         cleaned_audio = np.zeros_like(audio_data)
         epsilon = 1e-10
 
@@ -130,7 +121,6 @@ class EqualizingMode():
             frame_fft = np.fft.fft(windowed_frame)
             frame_power = np.abs(frame_fft) ** 2
 
-            # Improved Wiener filter with regularization
             wiener_filter = np.maximum(0, (frame_power - noise_reduction_factor *  noise_power) / (frame_power + noise_reduction_factor * noise_power + epsilon))
             filtered_frame = frame_fft * wiener_filter
             cleaned_frame = np.real(np.fft.ifft(filtered_frame))
