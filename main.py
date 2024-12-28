@@ -149,10 +149,13 @@ class MainWindow(QMainWindow):
         # animals piano ranges : (300, 600), (730,1100),  (1300, 1680),(1920, 2250)
         # animals flute ranges :  (600,700),(1100,1500),(1720, 2250),(3000, 3450),(3900,4150),(4500, 4700)
         
-        # self.all_freq_ranges['piano'] = [(435,625), (850, 1105), (1380, 1700), (1995, 2120),(2450, 2720), (2950, 3200), (3500, 5000)] #weee /i:/ - "ee" 
+        self.all_freq_ranges['vowel_2'] = [(435,625), (850, 1105), (1380, 1700), (1995, 2120),(2450, 2720), (2950, 3200), (3500, 5000)] #weee /i:/ - "ee" 
         # self.all_freq_ranges['violin'] = [(200, 290), (450, 570), (980, 1070 ), (1490,1600), (1950, 2160), (3000, 3200),  (3600, 3700), (4070, 4220), (4600, 4850)]  #اييييي 
-        # self.all_freq_ranges['triangle'] = [(200, 300), (500, 600), (1020, 1180), (1560, 1750), (2120, 2300), (2600, 2820), (3250, 3390),  (3700, 3950),(4220, 4500) ,(4850, 5090)] #اعععععع /ɑ:/ - "ah" 
-        # self.all_freq_ranges['xilaphone'] = [(300,400), (600,750), (1300,1500), (2000,2250), (2700,3100), (3500,3800)] #eeuu number 2 /ɔ:/ - "aw" 
+        self.all_freq_ranges['vowel_1'] = [(200, 300), (500, 600), (1020, 1180), (1560, 1750), (2120, 2300), (2600, 2820), (3250, 3390),  (3700, 3950),(4220, 4500) ,(4850, 5090)] #اعععععع /ɑ:/ - "ah" 
+        self.all_freq_ranges['vowel_3'] = [(300,400), (600,750), (1300,1500), (2000,2250), (2700,3100), (3500,3800)] #eeuu number 2 /ɔ:/ - "aw" 
+        self.all_freq_ranges['vowels_violin'] =[ (350, 650), (860, 960), (1050,1200),(1300, 1700), (2000, 2400), (2700, 2900), (3200, 3400), (3600,3800),(4200,4600),(4850, 5300)]
+        self.all_freq_ranges['vowels_flute'] = [ (650, 1200), (2000, 2500) ,(3050, 3550)]
+
         # vowels violin ranges:  (350, 650), (860, 960), (1050,1200),(1300, 1700), (2000, 2400), (2700, 2900), (3200, 3400), (3600,3800),(4200,4600),(4850, 5300)
         # vowels flute ranges: (650, 1200), (2000, 2500) ,(3050, 3550)
         
@@ -223,22 +226,25 @@ class MainWindow(QMainWindow):
         self.uniform_10_slider = self.findChild(QSlider , "verticalSlider_10")
         self.sliders_list.append(self.uniform_10_slider)
 
-        self.wiener_noise_level_slider = self.findChild(QSlider , "verticalSlider_19")
+        self.wiener_noise_level_slider = self.findChild(QSlider , "horizontalSlider")
         self.wiener_noise_level_slider.setMinimum(1)
         self.wiener_noise_level_slider.setMaximum(5)
         self.wiener_noise_level_slider.setPageStep(1)
         
-        self.piano_sound_level_slider = self.findChild(QSlider , "verticalSlider_11")
-        self.sliders_list.append(self.piano_sound_level_slider)
+        self.vowel_1 = self.findChild(QSlider , "verticalSlider_11") #Vowel 1 /ɑ:/ - "ah" 
+        self.sliders_list.append(self.vowel_1)
+
+        self.vowel_2 = self.findChild(QSlider , "verticalSlider_19") #vowel 2 weee /i:/ - "ee" 
+        self.sliders_list.append(self.vowel_2)
         
-        self.violin_sound_level_slider = self.findChild(QSlider , "verticalSlider_12")
-        self.sliders_list.append(self.violin_sound_level_slider)
+        self.vowel_3 = self.findChild(QSlider , "verticalSlider_12") #vowel 3 /ɔ:/ - "aw" 
+        self.sliders_list.append(self.vowel_3)
         
-        self.triangle_sound_level_slider = self.findChild(QSlider , "verticalSlider_13")
-        self.sliders_list.append(self.triangle_sound_level_slider)
+        self.vowel_flute = self.findChild(QSlider , "verticalSlider_13") 
+        self.sliders_list.append(self.vowel_flute)
         
-        self.xilaphone_sound_level_slider = self.findChild(QSlider , "verticalSlider_14")
-        self.sliders_list.append(self.xilaphone_sound_level_slider)
+        self.vowel_violin = self.findChild(QSlider , "verticalSlider_14")
+        self.sliders_list.append(self.vowel_violin)
         
         for slider in self.sliders_list:
             slider.setMaximum(10)
@@ -263,10 +269,13 @@ class MainWindow(QMainWindow):
         self.uniform_8_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform8'))
         self.uniform_9_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform9'))
         self.uniform_10_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'uniform10'))
-        self.piano_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'piano'))
-        self.violin_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'violin'))
-        self.triangle_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'triangle'))
-        self.xilaphone_sound_level_slider.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'xilaphone'))
+        
+        self.vowel_1.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'vowel_1'))
+        self.vowel_2.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'vowel_2'))
+        self.vowel_3.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'vowel_3'))
+
+        self.vowel_flute.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'vowels_flute'))
+        self.vowel_violin.valueChanged.connect(lambda slider_value: self.sound_level_slider_effect(slider_value, 'vowels_violin'))
         
         self.wiener_noise_level_slider.valueChanged.connect(lambda slider_value: self.wiener_noise_slider_effect(slider_value))
         self.linear_region = False
