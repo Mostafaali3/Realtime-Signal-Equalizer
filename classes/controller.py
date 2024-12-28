@@ -65,7 +65,7 @@ class Controller():
     def set_current_signal(self, signal:CustomSignal):
         self.__current_signal = signal
         self.equalizer.current_signal = self.__current_signal
-        self.plot_frequency_boundries()
+        # self.plot_frequency_boundries()
         if len(self.__current_signal.original_linear_frequency[0]) == 0:
             self.equalizer.transform()
         if(self.mode != Mode.ANIMALS):
