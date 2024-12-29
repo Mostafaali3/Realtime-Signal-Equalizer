@@ -1293,7 +1293,7 @@ border-radius: 10px
          <string notr="true">margin:0;</string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="uniformMode">
          <property name="minimumSize">
@@ -1759,7 +1759,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Vowel 03</string>
+                 <string>/ɔ:/</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1800,7 +1800,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Vowel 01</string>
+                 <string>/ɑ:/</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1923,7 +1923,7 @@ border-radius: 10px
                  <string notr="true">font-size:16px;</string>
                 </property>
                 <property name="text">
-                 <string>Vowel 02</string>
+                 <string>/i:/</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
