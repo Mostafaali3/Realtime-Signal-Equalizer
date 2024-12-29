@@ -167,7 +167,7 @@ class MainWindow(QMainWindow):
         
         # full ranges: ,(3.2,4), (4.4,5), (5.6,6),(6.11, 6.4),(6.61,7.2),(7.8,8.6),(9.01,9.8), (10.2, 11),(11.2,11.8)]
         
-        self.all_freq_ranges["Crow"] =[(50,1300), (1600,2000)]
+        self.all_freq_ranges["Crow"] =[(30,1300), (1600,2100)]
         self.all_freq_ranges["Raccon"] =[ (1310,1450), (1490,1800), (2100,2450), (2460,2630), (2670,3000) ]
         self.all_freq_ranges["Peacock"] =[(560,760),(2900,3500),(3800,6000)]  #Peacock
         self.all_freq_ranges["animal_flute"] =[(600,700),(1100,1500),(1720, 2250),(3000, 3450),(3900,4150),(4500, 4700)]
