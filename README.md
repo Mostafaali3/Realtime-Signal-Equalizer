@@ -48,6 +48,7 @@ The **Signal Equalizer Simulator** is an interactive application designed for re
 - **Control Options:**
   - Start, pause, reset, and zoom functionalities for signal visualization.
 
+
 ## Getting Started
 
 ### Prerequisites
