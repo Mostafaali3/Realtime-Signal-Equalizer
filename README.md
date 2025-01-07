@@ -1,6 +1,4 @@
-Here’s the updated README based on the details from the PDF file:
 
----
 
 # Signal Equalizer Simulator
 
