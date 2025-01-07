@@ -93,14 +93,18 @@ python main.py
 
 ## Dependencies
 
+
 | **Dependency**       | **Description**                                       |
 |-----------------------|-------------------------------------------------------|
 | Python 3.x           | Core programming language.                            |
-| NumPy                | For numerical computations and signal processing.     |
-| SciPy                | Advanced scientific computing and signal operations.  |
-| PyQt5                | GUI framework for desktop application development.    |
-| PyQtGraph            | Fast and interactive 2D/3D plotting.                  |
-| Matplotlib           | Visualization library for frequency spectrum analysis.|
+| NumPy                | Numerical computations for signal processing.         |
+| Pandas               | Data manipulation and analysis.                       |
+| SciPy                | Advanced scientific computing and interpolation.      |
+| PyQt5                | GUI framework for building desktop applications.      |
+| PyQtGraph            | Fast plotting and 2D/3D visualization in PyQt.        |
+| sounddevice          | Audio I/O library for recording and playback.         |
+
+
 
 
 ## Contributors <a name="Contributors"></a>
