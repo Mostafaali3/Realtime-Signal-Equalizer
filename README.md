@@ -2,7 +2,7 @@
 
 # Signal Equalizer Simulator
 
-![Application UI](assets/final_project_ui.png "Overview of the Signal Equalizer Simulator")
+![Application UI](assets/laptob_mockup.png "Overview of the Signal Equalizer Simulator")
 
 The **Signal Equalizer Simulator** is an interactive application designed for real-time audio signal processing. It provides users with a dynamic environment to adjust audio signals and visualize the impact of those adjustments across both time and frequency domains. The application supports mode-based audio signal adjustment for various scenarios.
 
@@ -10,12 +10,26 @@ The **Signal Equalizer Simulator** is an interactive application designed for re
 
 ### 1. Real-Time Audio Adjustment
 - **Modes of Operation:**
-  - **User Mode:**  
+  - **Wiener Filter-Based Noise Cancellation Mode:**  
+  Users can select a specific region of the signal containing the noise profile and remove it from the audio signal. Additionally, users can control the strength of noise cancellation to fine-tune the output. The Wiener filter applies the formula:  
+  $$\[
+  H(f) = \frac{S_{xx}(f)}{S_{xx}(f) + S_{nn}(f)}
+  \]$$
+    - ![Video Demo](assets/wiener_mode.gif)
+    - [Watch the video](assets/wiener_mode.mp4)  
+  where $$\( S_{xx}(f) \)$$ is the power spectral density of the signal and $$\( S_{nn}(f) \)$$ is the power spectral density of the noise.
+  - **Uniform Mode:**  
     Users have complete control over frequency bands to manually adjust signal equalization.
+    - ![Video Demo](assets/uniform_mode.gif)
+    - [Watch the video](assets/uniform_mode.mp4) 
   - **Vowel Mode:**  
     Equalizer settings are optimized for specific vowels (e.g., 'a', 'e', 'i', 'o', 'u'), enabling targeted audio signal modification.
-  - **Music Mode:**  
-    Pre-defined settings for musical instruments like flute and violin, tailored to enhance the specific characteristics of each instrument.
+    - ![Video Demo](assets/vowel_mode.gif)
+    - [Watch the video](assets/vowels_mode.mp4) 
+  - **Animals and Music Mode:**  
+    Pre-defined settings for musical instruments like flute and violin and animals like raccon, tailored to enhance the specific characteristics of each instrument and animal.
+    - ![Video Demo](assets/animals_mode.gif)
+    - [Watch the video](assets/animals_mode.mp4) 
 - **Parameter Control:**
   - Intuitive sliders for controlling audio parameters.
   - Independent controls for specific frequency ranges and audio characteristics.
