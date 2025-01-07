@@ -1,3 +1,6 @@
 numpy
+pandas
+scipy
 pyqt5
+pyqtgraph
 sounddevice
