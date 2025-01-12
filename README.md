@@ -1,6 +1,5 @@
 
-
-# Signal Equalizer Simulator
+# ToneEQ: an Audio equalizer for acappella and music extraction
 
 ![Application UI](assets/laptob_mockup.png "Overview of the Signal Equalizer Simulator")
 
