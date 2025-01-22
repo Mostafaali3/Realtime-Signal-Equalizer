@@ -139,7 +139,10 @@ python main.py
       </a>
     </td>
   </tr>
-</table
+</table>
+
+## Acknowledgments
+These projects was supervised by Dr. Tamer Basha as part of the Digital Signal Processing course at Cairo University Faculty of Engineering.
 
 Thank you for using the Signal Equalizer Simulator! If you encounter any issues, feel free to open an issue on GitHub.
 
